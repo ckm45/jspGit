@@ -77,7 +77,7 @@ public class ModifyOk extends HttpServlet {
             pstmt.setString(6, id);
             int iResult = pstmt.executeUpdate();
             
-            if( iResult == 1 ) {
+            if( iResult >=  1 ) {
                 System.out.println("update success");
                 response.sendRedirect("modifyResult.jsp");
                 

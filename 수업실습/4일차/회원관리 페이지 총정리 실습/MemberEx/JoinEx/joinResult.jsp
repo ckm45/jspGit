@@ -22,7 +22,7 @@
         String url = "jdbc:oracle:thin:@192.168.119.119:1521/dink19.dbsvr";
         String uid = "scott";
         String upw = "tiger";
-        String query = "SELECT * FROM member"; 
+        String query = "SELECT * FROM member";
         
         try {
             Class.forName(driver);
