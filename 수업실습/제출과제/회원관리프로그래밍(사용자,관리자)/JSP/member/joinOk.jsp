@@ -43,7 +43,7 @@
     String pw = request.getParameter("pw");
     String phone = request.getParameter("phone");
     String email = request.getParameter("email");
-
+    out.println(name + id + pw + phone + email);
     MemberDAO memberDAO = new MemberDAO();
     MemberDTO memberDTO = new MemberDTO(name, id, pw, phone, email);
     boolean joinResult = memberDAO.joinCheck(name, id, pw, phone, email);

@@ -69,6 +69,22 @@
         color: #45a049;
     }
 </style>
+<script>
+    function limitPhoneNumber() {
+        var phoneNumberInput = document.getElementById('phone');
+        var phoneNumber = phoneNumberInput.value;
+
+        // 010으로 시작하지 않으면 010을 추가
+        if (!phoneNumber.startsWith('010')) {
+            phoneNumberInput.value = '010' + phoneNumber;
+        }
+
+        // 11자리가 넘으면 자르기
+        if (phoneNumber.length > 11) {
+            phoneNumberInput.value = phoneNumber.slice(0, 11);
+        }
+    }
+</script>
 </head>
 <body>
     <h1>회원 가입</h1>
@@ -83,7 +99,8 @@
         <input type="password" name="pw" id="pw">
 
         <label for="phone">전화번호:</label>
-        <input type="text" name="phone" id="phone">
+        <input type="text" name="phone" id="phone" oninput="limitPhoneNumber()" pattern="[0-9]{11}">
+
 
         <label for="email">이메일:</label>
         <input type="text" name="email" id="email">

@@ -112,33 +112,42 @@
             <tr>
                 <th>이름</th>
                 <th>아이디</th>
+                <th>비밀번호</th>
+                <th>전화번호</th>
                 <th>이메일</th>
                 <th>상태</th>
                 <th>권한</th>
             </tr>
         </thead>
-        <tbody>
-            <% 
-            MemberDAO memberDAO = new MemberDAO();
-            ArrayList<MemberDTO> dtos = memberDAO.memberAllSelect();
-            for(int i = 0; i < dtos.size(); i++) {
-                MemberDTO dto = dtos.get(i);
+<tbody>
+    <% 
+    MemberDAO memberDAO = new MemberDAO();
+    ArrayList<MemberDTO> dtos = memberDAO.memberAllSelect();
+    for(int i = 0; i < dtos.size(); i++) {
+        MemberDTO dto = dtos.get(i);
 
-                String name = dto.getName();
-                String id = dto.getId();
-                String email = dto.getEmail();
-                String status = dto.getStatus();
-                String auth = dto.getAuth();
-            %>
-            <tr>
-                <td><%= name %></td>
-                <td><%= id %></td>
-                <td><%= email %></td>
-                <td><%= status %></td>
-                <td><%= auth %></td>
-            </tr>
-            <% } %>
-        </tbody>
+        String name = dto.getName();
+        String id = dto.getId();
+        String pw = dto.getPw();
+        String phone = dto.getPhone();
+        String email = dto.getEmail();
+        String status = dto.getStatus();
+        String auth = dto.getAuth();
+
+        // JavaScript 코드 추가
+        String formattedPhone = "010" + phone.substring(3).replaceAll("\\d", "x");
+    %>
+    <tr>
+        <td><%= name %></td>
+        <td><%= id %></td>
+        <td><%= pw %></td>
+        <td><%= formattedPhone %></td> <!-- 수정된 전화번호 출력 -->
+        <td><%= email %></td>
+        <td><%= status %></td>
+        <td><%= auth %></td>
+    </tr>
+    <% } %>
+</tbody>
     </table>
     <form class="update-form" action="updateFunction.jsp" method="post">
         <label for="id">수정하고 싶은 ID :</label>
