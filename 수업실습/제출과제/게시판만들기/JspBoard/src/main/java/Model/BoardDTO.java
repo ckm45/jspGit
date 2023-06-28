@@ -27,6 +27,21 @@ public class BoardDTO {
         this.indent = indent;
         this.view = view;
     }
+    
+    public BoardDTO(String name, String title, String content) {
+        super();
+        this.id = 0;
+        this.name = name;
+        this.title = title;
+        this.content = content;
+        this.date = null;
+        this.group = null;
+        this.level = "1";
+        this.indent = "0";
+        this.view = 0;
+    }
+    
+    
     public int getId() {
         return id;
     }

@@ -12,9 +12,9 @@ public class DeleteBoardImpl implements BoardService{
     }
 
     @Override
-    public void insertBoard() {
+    public void insertBoard(String name, String title, String context) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override

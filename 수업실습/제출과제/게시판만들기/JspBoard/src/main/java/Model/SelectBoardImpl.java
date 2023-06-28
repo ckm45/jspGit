@@ -14,9 +14,10 @@ public class SelectBoardImpl implements BoardService {
     }
 
     @Override
-    public void insertBoard() {
-        // TODO Auto-generated method stub
-
+    public void insertBoard(String name, String title, String context) {
+        BoardDAO dao = new BoardDAO();
+        
+        
     }
 
     @Override
@@ -30,5 +31,7 @@ public class SelectBoardImpl implements BoardService {
         // TODO Auto-generated method stub
 
     }
+
+
 
 }

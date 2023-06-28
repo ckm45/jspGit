@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Model.BoardDTO;
 import Model.BoardService;
+import Model.InsertBoardImpl;
 import Model.SelectBoardImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -56,16 +57,21 @@ public class FrontController extends HttpServlet {
 	          String command = uri.substring(conPath.length());
 	          System.out.println("command : " + command);
 	          
-	          if(command.equals("insert.do")) {
+	          if(command.equals("/View/insert.do")) {
 	             System.out.println("/View/insert.do");
-	             System.out.println("-------------------------");
+	               BoardService service = new InsertBoardImpl();
+	               String name = request.getParameter("name");
+	               String title = request.getParameter("title");
+	               String content = request.getParameter("content");
+	               service.insertBoard(name, title, content);
+	               response.sendRedirect("/JspBoard/View/boardMenu.jsp");
+	             
 	          } else if(command.equals("update.do")) {
 	             System.out.println("/update.do");
-	             System.out.println("-------------------------");
+	             
 	          } else if(command.equals("/View/select.do")) {
-	             System.out.println("select.do");
+	             System.out.println("/View/select.do");     
 	             BoardService service = new SelectBoardImpl();
-	             System.out.println("if문 시작");
 	             ArrayList<BoardDTO> dtos = service.selectBoard();
 	             //
 	             

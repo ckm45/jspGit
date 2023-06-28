@@ -68,23 +68,46 @@ public class BoardDAO {
         return dtos;
     }
     
+    //insert 전에 이전 DB값과 비교하여 group을 설정해주는 메소드
+    public BoardDTO CheckInsert(String name, String title, String content) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int group = 0;
+        ArrayList<BoardDTO> dtos = memberAllSelect();
+        for (BoardDTO dto : dtos) {
+            if(Integer.parseInt(dto.getGroup())> group) {
+                group = Integer.parseInt(dto.getContent());
+            }  
+        }
+        
+        BoardDTO dto = new BoardDTO(name,title,content);
+        dto.setGroup(String.valueOf(group));
+       
+        return dto;
+        
+    }
+    
+    //게시글 한 개 작성 메소드
     public void BoardInsert(String name, String title, String content) {
         System.out.println("insert메소드 시작");
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
+        BoardDTO dto = CheckInsert(name,title,content);
         
         String query =
-                "insert into members(name, id, password, phone, email, status, auth)  values( ?, ?, ?, ?, ?, ?, ? )";
+                "INSERT INTO BOARD (NAME, TITLE, CONTENT, BOARD_GROUP)\r\n"
+                + "VALUES (?, ?, ?, ?)";
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
             conn = ds.getConnection();
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, name);
-            pstmt.setString(2, title);
-            pstmt.setString(3, content);
-            
+            pstmt.setString(1, dto.getName());
+            pstmt.setString(2, dto.getTitle());
+            pstmt.setString(3, dto.getContent());
+            pstmt.setString(4, dto.getGroup());
             int iResult = pstmt.executeUpdate();
             
             if (iResult >= 1) {
