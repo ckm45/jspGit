@@ -21,7 +21,7 @@
     <tr>
         <td>${dto.id }</td>
         <td>${dto.name }</td>
-        <td>${dto.title }</td>
+        <td><a href="subBoard.do?id=${dto.id}">${dto.title}</a></td>
         <td>${dto.date}</td>
     </tr>
     

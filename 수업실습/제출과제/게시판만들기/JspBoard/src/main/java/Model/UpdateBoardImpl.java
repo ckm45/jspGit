@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class UpdateBoardImpl implements BoardService {
 
     @Override
-    public ArrayList<BoardDTO> selectBoard() {
+    public ArrayList<BoardDTO> selectAllBoard() {
         return null;
         // TODO Auto-generated method stub
 
@@ -18,8 +18,10 @@ public class UpdateBoardImpl implements BoardService {
     }
 
     @Override
-    public void updateBoard() {
-        // TODO Auto-generated method stub
+    public void updateBoard(int id, String name, String title, String context) {
+        BoardDAO dao = new BoardDAO();
+        dao.updateBoard(id, name, title, context);
+        
 
     }
 
@@ -27,6 +29,13 @@ public class UpdateBoardImpl implements BoardService {
     public void deleteBoard() {
         // TODO Auto-generated method stub
 
+    }
+
+
+    @Override
+    public BoardDTO selectBoard(int id) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

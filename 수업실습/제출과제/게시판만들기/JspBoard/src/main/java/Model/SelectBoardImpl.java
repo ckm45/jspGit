@@ -5,23 +5,19 @@ import java.util.ArrayList;
 public class SelectBoardImpl implements BoardService {
 
     @Override
-    public ArrayList<BoardDTO> selectBoard() {
-        
-        BoardDAO dao = new BoardDAO();
-        ArrayList<BoardDTO> dtos = dao.memberAllSelect();
-        return dtos;
-        
+    public ArrayList<BoardDTO> selectAllBoard() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
     public void insertBoard(String name, String title, String context) {
-        BoardDAO dao = new BoardDAO();
-        
-        
+        // TODO Auto-generated method stub
+
     }
 
     @Override
-    public void updateBoard() {
+    public void updateBoard(int id, String name, String title, String context) {
         // TODO Auto-generated method stub
 
     }
@@ -32,6 +28,14 @@ public class SelectBoardImpl implements BoardService {
 
     }
 
-
+    @Override
+    public BoardDTO selectBoard(int id) {
+        BoardDAO dao = new BoardDAO();
+        BoardDTO dto = dao.selectBoard(id); 
+        
+        
+        
+        return dto;
+    }
 
 }

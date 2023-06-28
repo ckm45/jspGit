@@ -1,24 +1,23 @@
 package Model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
-public class InsertBoardImpl implements BoardService {
+public class SelectAllBoardImpl implements BoardService {
 
     @Override
     public ArrayList<BoardDTO> selectAllBoard() {
-        return null;
-        // TODO Auto-generated method stub
-
+        
+        BoardDAO dao = new BoardDAO();
+        ArrayList<BoardDTO> dtos = dao.selectAllBoard();
+        return dtos;
+        
     }
 
     @Override
-    public void insertBoard(String name, String title, String content) {
-        
+    public void insertBoard(String name, String title, String context) {
         BoardDAO dao = new BoardDAO();
-        dao.insertBoard(name, title, content);
+        
+        
     }
 
     @Override
@@ -38,5 +37,7 @@ public class InsertBoardImpl implements BoardService {
         // TODO Auto-generated method stub
         return null;
     }
+
+
 
 }
