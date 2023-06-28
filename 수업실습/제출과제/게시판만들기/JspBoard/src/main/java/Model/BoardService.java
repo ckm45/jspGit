@@ -12,7 +12,7 @@ public interface BoardService {
     
     public void updateBoard(int id, String name, String title, String context);
     
-    public void deleteBoard();
+    public void deleteBoard(String[] ids);
     
     
 }

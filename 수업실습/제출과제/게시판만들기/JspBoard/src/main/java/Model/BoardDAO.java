@@ -227,6 +227,54 @@ public class BoardDAO {
         }
 
     }
+    
+    public void deleteBoard(String[] ids) {
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = ds.getConnection();
+
+            // SQL 쿼리 작성
+            String sql = "DELETE FROM BOARD WHERE ID = ?";
+
+            // PreparedStatement 객체 생성
+            pstmt = conn.prepareStatement(sql);
+
+            // 배열의 각 id 값에 대해 쿼리 실행
+            for (String id : ids) {
+                int convertedId = Integer.parseInt(id);
+                // 매개변수 값 설정
+                pstmt.setInt(1, convertedId);
+
+                // 쿼리 실행
+                int rowsAffected = pstmt.executeUpdate();
+
+                if (rowsAffected <= 0) {
+                    // 삭제되지 않은 경우 처리 로직 추가
+                    System.out.println("delete failed");
+                }
+                else {
+                    System.out.println("delete sucess");
+                }
+             
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import Model.BoardDTO;
 import Model.BoardService;
+import Model.DeleteBoardImpl;
 import Model.InsertBoardImpl;
 import Model.SelectAllBoardImpl;
 import Model.SelectBoardImpl;
@@ -108,9 +109,13 @@ public class FrontController extends HttpServlet {
 	              
 	              
 	          }
-	          else if(command.equals("delete.do")) {
+	          else if(command.equals("/View/delete.do")) {
+	             String[] selectedIds = request.getParameterValues("selectedIds");
+	              
 	             System.out.println("/delete.do");
-	             System.out.println("-------------------------");
+                 BoardService service = new DeleteBoardImpl();
+                 service.deleteBoard(selectedIds);
+                 response.sendRedirect("/JspBoard/View/boardMenu.jsp");
 	          }
 	        
 	    }

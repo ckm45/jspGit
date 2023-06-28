@@ -24,8 +24,9 @@ public class DeleteBoardImpl implements BoardService{
     }
 
     @Override
-    public void deleteBoard() {
-        // TODO Auto-generated method stub
+    public void deleteBoard(String[] ids) {
+        BoardDAO dao = new BoardDAO();
+        dao.deleteBoard(ids);
 
     }
 

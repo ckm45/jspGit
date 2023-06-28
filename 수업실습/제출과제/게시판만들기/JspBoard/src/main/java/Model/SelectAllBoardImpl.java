@@ -27,7 +27,7 @@ public class SelectAllBoardImpl implements BoardService {
     }
 
     @Override
-    public void deleteBoard() {
+    public void deleteBoard(String[] ids) {
         // TODO Auto-generated method stub
 
     }
