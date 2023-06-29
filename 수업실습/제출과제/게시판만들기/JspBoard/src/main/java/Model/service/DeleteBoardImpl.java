@@ -1,0 +1,40 @@
+package Model.service;
+
+import java.util.ArrayList;
+import Model.daodto.BoardDAO;
+import Model.daodto.BoardDTO;
+
+public class DeleteBoardImpl implements BoardService{
+    
+    @Override
+    public ArrayList<BoardDTO> selectAllBoard() {
+        return null;
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void insertBoard(String name, String title, String context) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void updateBoard(int id, String name, String title, String context) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deleteBoard(String[] ids) {
+        BoardDAO dao = new BoardDAO();
+        dao.deleteBoard(ids);
+
+    }
+
+    @Override
+    public BoardDTO selectBoard(int id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+}

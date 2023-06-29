@@ -15,15 +15,17 @@
             <td>이름</td>
             <td>제목</td>
             <td>날짜</td>
+            <td>조회수</td>
             <td>체크박스</td>
         </tr>
         
-        <c:forEach items="${list}" var="dto">
+        <c:forEach items="${dtos}" var="dto">
         <tr>
             <td>${dto.id}</td>
             <td>${dto.name}</td>
             <td><a href="subBoard.do?id=${dto.id}">${dto.title}</a></td>
             <td>${dto.date}</td>
+            <td>${dto.view}</td>
             <td><input type="checkbox" name="selectedIds" value="${dto.id}"></td>
         </tr>
         </c:forEach>
