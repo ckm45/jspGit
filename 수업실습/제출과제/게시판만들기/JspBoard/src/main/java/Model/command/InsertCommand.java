@@ -13,6 +13,7 @@ public class InsertCommand implements BoardCommand{
         String name = request.getParameter("name");
         String title = request.getParameter("title");
         String content = request.getParameter("content");
+     
         
         dao.insertBoard(name, title, content);
         

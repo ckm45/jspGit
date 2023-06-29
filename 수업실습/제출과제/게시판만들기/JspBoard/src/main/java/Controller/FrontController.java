@@ -6,8 +6,8 @@ import Model.command.DeleteCommand;
 import Model.command.InsertCommand;
 import Model.command.SelectAllCommand;
 import Model.command.SelectCommand;
-import Model.service.BoardService;
-import Model.service.UpdateBoardImpl;
+import Model.command.SubInsertCommand;
+import Model.command.UpdateCommand;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -76,7 +76,9 @@ public class FrontController extends HttpServlet {
 	             
 	          } else if(command.equals("/View/update.do")) {
 	             System.out.println("/View/update.do");
-	             BoardService service = new UpdateBoardImpl();
+	             BoardCommand boardCommand = new UpdateCommand();
+	             boardCommand.execute(request, response);
+//	             BoardService service = new UpdateBoardImpl();
 //	             int id = Integer.parseInt(request.getParameter("id"));
 //	             String name = request.getParameter("name");
 //                 String title = request.getParameter("title");
@@ -119,6 +121,15 @@ public class FrontController extends HttpServlet {
                  viewPage = "/View/boardMenu.jsp";
                  //response.sendRedirect("/JspBoard/View/boardMenu.jsp");
 	          }
+	          else if(command.contains("/View/subInsert.do")) {
+	              System.out.println("subInsert.do 실행");
+	              BoardCommand boardCommand = new SubInsertCommand();
+	              boardCommand.execute(request, response);
+	              
+	              viewPage = "/View/boardMenu.jsp";
+	          }
+	          
+	          
 	          
 	        //디스패처 포워드
               RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);

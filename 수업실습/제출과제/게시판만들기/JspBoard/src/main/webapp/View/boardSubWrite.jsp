@@ -43,32 +43,17 @@
     input[type="submit"]:hover {
         background-color: #D81B60;
     }
-    .button {
-        margin-top: 20px;
-        text-align: center;
-    }
-    .button a {
-        display: inline-block;
-        padding: 8px 16px;
-        font-size: 16px;
-        background-color: #1E88E5;
-        color: #FFFFFF;
-        text-decoration: none;
-        border-radius: 4px;
-    }
-    .button a:hover {
-        background-color: #0D47A1;
-    }
 </style>
 </head>
 <body>
     
-    <form action="insert.do" method="post">
+    <form action="subInsert.do?group=${param.group}&level=${param.level}&indent=${param.indent}&id=${param.id}" method="post">
         <label for="name">작성자 이름:</label>
         <input type="text" name="name" id="name">
 
         <label for="title">제목:</label>
-        <input type="text" name="title" id="title">
+        <input type="text" name="title" id="title"/>
+        <!-- value="${dto.group} 의 답글"  -->
         <br/>
         <br/>
         <br/>
@@ -77,10 +62,6 @@
 
         <input type="submit" value="작성">
     </form>
-    
-    <div class="button">
-        <a href="boardMenu.jsp">돌아가기</a>
-    </div>
     
 </body>
 </html>

@@ -33,7 +33,8 @@ public class BoardDAO {
               // =
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from board");
+            //rs = stmt.executeQuery("select * from board");
+            rs = stmt.executeQuery("SELECT * FROM board START WITH board_group = 0 CONNECT BY PRIOR id = board_group ORDER SIBLINGS BY board_level ASC");
 
             System.out.println("memberAllSelect 메소드 실행");
             while (rs.next()) {
@@ -42,9 +43,9 @@ public class BoardDAO {
                 String title = rs.getString("title");
                 String content = rs.getString("content");
                 String write_date = rs.getString("write_date");
-                String board_group = rs.getString("board_group");
-                String board_level = rs.getString("board_level");
-                String indent = rs.getString("indent");
+                int board_group = rs.getInt("board_group");
+                int board_level = rs.getInt("board_level");
+                int indent = rs.getInt("indent");
                 int view = rs.getInt("board_view");
 
                 BoardDTO dto = new BoardDTO(id, name, title, content, write_date, board_group,
@@ -90,9 +91,9 @@ public class BoardDAO {
                 String title = rs.getString("title");
                 String content = rs.getString("content");
                 String date = rs.getString("write_date");
-                String group = rs.getString("board_group");
-                String level = rs.getString("board_level");
-                String indent = rs.getString("indent");
+                int group = rs.getInt("board_group");
+                int level = rs.getInt("board_level");
+                int indent = rs.getInt("indent");
                 int view = rs.getInt("board_view");
                 dto = new BoardDTO(id, name, title, content, date, group, level, indent, view);
             }
@@ -123,8 +124,8 @@ public class BoardDAO {
         ArrayList<BoardDTO> dtos = selectAllBoard();
         for (BoardDTO dto : dtos) {
             System.out.println(dto.getGroup());
-            if (Integer.parseInt(dto.getGroup()) > group) {
-                group = Integer.parseInt(dto.getGroup());
+            if (dto.getGroup() > group) {
+                group =dto.getGroup();
 
             }
         }
@@ -135,7 +136,7 @@ public class BoardDAO {
         // 이 3개짜리 생성자 객체의 group = null;
         // setter를 사용해서 아까 테이블중에 가장 큰 값 저장해놓은 것 있지
         // 거기에 + 1
-        dto.setGroup(String.valueOf(group + 1));
+        dto.setGroup(group + 1);
 
         return dto;
 
@@ -147,8 +148,8 @@ public class BoardDAO {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        BoardDTO dto = CheckInsert(name, title, content);
-
+        BoardDTO dto = new BoardDTO(name, title, content);
+        
         String query =
                 "INSERT INTO BOARD (NAME, TITLE, CONTENT, BOARD_GROUP)\r\n" + "VALUES (?, ?, ?, ?)";
 
@@ -159,7 +160,7 @@ public class BoardDAO {
             pstmt.setString(1, dto.getName());
             pstmt.setString(2, dto.getTitle());
             pstmt.setString(3, dto.getContent());
-            pstmt.setString(4, dto.getGroup());
+            pstmt.setInt(4, dto.getGroup());
             int iResult = pstmt.executeUpdate();
 
             if (iResult >= 1) {
@@ -186,7 +187,54 @@ public class BoardDAO {
     }
     
     //답글 작성 메소드
-    public void subInsertBoard(String name, String title, String content) {
+    public void subInsertBoard(int group, int level, int indent, String name, String title, String content) {
+        System.out.println("답글 작성 메소드 시작");
+
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        
+        ArrayList<BoardDTO> dtos = selectAllBoard();
+        BoardDTO subDto = new BoardDTO(name, title, content);        
+        subDto.setLevel(level);
+        subDto.setGroup(group);
+        subDto.setIndent(indent);
+
+        String query =
+                "INSERT INTO BOARD (NAME, TITLE, CONTENT, BOARD_GROUP, BOARD_LEVEL, INDENT)\r\n" + "VALUES (?, ?, ?, ?, ?, ?)";
+        
+        try {
+            // conn = DriverManager.getConnection(url, uid, upw);
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, subDto.getName());
+            pstmt.setString(2, subDto.getTitle());
+            pstmt.setString(3, subDto.getContent());
+            pstmt.setInt(4, subDto.getGroup());
+            pstmt.setInt(5, subDto.getLevel());
+            pstmt.setInt(6, subDto.getIndent());
+            int iResult = pstmt.executeUpdate();
+
+            if (iResult >= 1) {
+                System.out.println("insert success");
+
+            } else {
+                System.out.println("insert fail");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstmt != null)
+                    pstmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         
     }
     

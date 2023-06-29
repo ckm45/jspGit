@@ -6,16 +6,16 @@ public class BoardDTO {
     private String title;
     private String content;
     private String date;
-    private String group;
-    private String level;
-    private String indent;
+    private int group;
+    private int level;
+    private int indent;
     private int view;
     
     
     
     
-    public BoardDTO(int id, String name, String title, String content, String date, String group,
-            String level, String indent, int view) {
+    public BoardDTO(int id, String name, String title, String content, String date, int group,
+            int level, int indent, int view) {
         super();
         this.id = id;
         this.name = name;
@@ -35,9 +35,9 @@ public class BoardDTO {
         this.title = title;
         this.content = content;
         this.date = null;
-        this.group = null;
-        this.level = "1";
-        this.indent = "0";
+        this.group = 0;
+        this.level = 0;
+        this.indent = 0;
         this.view = 0;
     }
     
@@ -72,24 +72,31 @@ public class BoardDTO {
     public void setDate(String date) {
         this.date = date;
     }
-    public String getGroup() {
+   
+    public int getGroup() {
         return group;
     }
-    public void setGroup(String group) {
+
+    public void setGroup(int group) {
         this.group = group;
     }
-    public String getLevel() {
+
+    public int getLevel() {
         return level;
     }
-    public void setLevel(String level) {
+
+    public void setLevel(int level) {
         this.level = level;
     }
-    public String getIndent() {
+
+    public int getIndent() {
         return indent;
     }
-    public void setIndent(String indent) {
+
+    public void setIndent(int indent) {
         this.indent = indent;
     }
+
     public int getView() {
         return view;
     }
