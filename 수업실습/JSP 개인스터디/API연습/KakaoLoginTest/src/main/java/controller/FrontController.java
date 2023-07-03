@@ -67,7 +67,7 @@ public class FrontController extends HttpServlet {
 
     private void actionDo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String viewPage = null;
         String uri = request.getRequestURI();
         System.out.println("uri : " + uri);
 
@@ -81,8 +81,15 @@ public class FrontController extends HttpServlet {
             System.out.println("login.do");
             memberCommand mc = new kakaoLoginCommand();
             mc.execute(request, response);
-
-         
         }
+        else if(command.equals("/mail.do")) {
+            System.out.println("mail.do");
+            viewPage = "join.jsp";
+        }
+        
+        // 포워딩
+        RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+        reqDpt.forward(request, response);
+        
     }
 }
