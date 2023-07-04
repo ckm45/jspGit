@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.joinCommand;
 import model.kakaoLoginCommand;
 import model.mailCommand;
 import model.memberCommand;
@@ -76,9 +77,11 @@ public class FrontController extends HttpServlet {
         System.out.println("command : " + command);
 
         if (command.equals("/login.do")) {
+
             System.out.println("login.do");
             memberCommand mc = new kakaoLoginCommand();
             mc.execute(request, response);
+
         }
         else if(command.equals("/mail.do")) {
             memberCommand mc = new mailCommand();
@@ -86,6 +89,11 @@ public class FrontController extends HttpServlet {
             
             System.out.println("mail.do");
             viewPage = "join.jsp";
+        }
+        else if(command.equals("/join.do")) {
+            memberCommand mc = new joinCommand();
+            mc.execute(request, response);
+            viewPage = "joinOk.jsp";
         }
         
         // 포워딩

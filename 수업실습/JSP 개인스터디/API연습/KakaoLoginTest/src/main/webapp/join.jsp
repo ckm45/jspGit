@@ -148,7 +148,7 @@
 </head>
 <body>
 <h1>회원 가입</h1>
-<form action="joinOk.jsp" method="post" onsubmit="return validateAddress();">
+<form action="join.do" method="post" onsubmit="return validateAddress();">
 
     <label for="name">이름:</label>
     <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required value="${param.name}">
@@ -161,17 +161,23 @@
     <label for="pwck">비밀번호 확인</label>
     <input type="password" name="pwck" id="pwck" required value="${param.pwck}">
     
+    <label for="simplePw">간편 비밀번호</label>
+    <input type="password" name="simplePw" id="simplePw" placeholder="간편 비밀번호 6자리를 입력해주세요."  required value="${param.simplePw}">
+    
+    <label for="personal_id">주민등록번호</label>
+    <input type="text" name="personal_id" id="personal_id" placeholder="주민등록번호를 입력해주세요."  required value="${param.personal_id}">
+    
     <label for="phone">전화번호:</label>
     <input type="text" id="phone" name="phone" oninput="limitPhoneNumber()" pattern="[0-9]{11}"
            placeholder="전화번호를 입력해주세요." required value="${param.phone}">
 
     <label for="address">주소:</label>
-    <input type="text" id="sample6_postcode" placeholder="우편번호">
+    <input type="text" id="sample6_postcode" name = "zipcode" placeholder="우편번호">
     <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
     <br>
-    <input type="text" id="sample6_address" placeholder="주소">
+    <input type="text" id="sample6_address" name = "address" placeholder="주소">
     <br>
-    <input type="text" id="sample6_detailAddress" placeholder="상세주소">
+    <input type="text" id="sample6_detailAddress" name = "detailAddress" placeholder="상세주소">
 
 
     <label for="email">이메일:</label>

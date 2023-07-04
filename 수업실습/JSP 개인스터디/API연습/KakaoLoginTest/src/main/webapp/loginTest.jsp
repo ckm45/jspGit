@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
-    Kakao.init(""); //api 키값 
+    Kakao.init(""); //api 키값     
     function kakaoLogin() {
         Kakao.Auth.login({
             success: function (response) {
@@ -22,6 +22,7 @@
                         xhr.send(json);
                         //결과가 정상 처리 하면 다음 페이지로 이동 
                     	//alert(JSON.stringify(response))
+                    	
                         location.href="loginSuccess.jsp"
                         //location.href="login.do"
                     },
