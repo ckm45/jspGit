@@ -1,9 +1,6 @@
 package controller;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import org.json.JSONObject;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.kakaoLoginCommand;
+import model.mailCommand;
 import model.memberCommand;
 
 /**
@@ -83,6 +81,9 @@ public class FrontController extends HttpServlet {
             mc.execute(request, response);
         }
         else if(command.equals("/mail.do")) {
+            memberCommand mc = new mailCommand();
+            mc.execute(request, response);
+            
             System.out.println("mail.do");
             viewPage = "join.jsp";
         }

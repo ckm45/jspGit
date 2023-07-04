@@ -69,6 +69,7 @@
             }
         }
     </script>
+
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
     function sample6_execDaumPostcode() {
@@ -96,22 +97,73 @@
         }).open();
     }
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 패스워드 체크
+        let passwd = document.querySelector("#pw");
+        let passwdck = document.querySelector("#pwck");
+
+        let message = document.createElement("p");
+        message.style.color = "green";
+        message.style.fontWeight = "bold";
+
+        // 메시지 엘리먼트를 추가
+        passwdck.insertAdjacentElement('afterend', message);
+
+        passwdck.addEventListener("input", function () {
+            if (passwd.value === passwdck.value) {
+                message.textContent = "비밀번호가 일치합니다.";
+                document.querySelector('input[type="submit"]').disabled = false; // 비밀번호 일치 시 회원가입 버튼 활성화
+            } else {
+                message.textContent = "비밀번호가 일치하지 않습니다.";
+                
+            }
+        });
+
+        // 회원가입 요청(submit) 시 비밀번호 일치 여부 확인
+        document.querySelector('form').addEventListener("submit", function (event) {
+            if (passwd.value !== passwdck.value) {
+                event.preventDefault(); // submit 동작 중지
+                alert("비밀번호가 일치하지 않습니다."); // 비밀번호 불일치 시 알림창 표시
+            }
+        });
+    });
+    
+    function validateAddress() {
+        var postcodeInput = document.getElementById('sample6_postcode');
+        var addressInput = document.getElementById('sample6_address');
+        var detailAddressInput = document.getElementById('sample6_detailAddress');
+
+        if (postcodeInput.value.trim() === '' || addressInput.value.trim() === '' || detailAddressInput.value.trim() === '') {
+            alert('주소를 모두 입력해주세요.');
+            return false;
+        }
+
+        return true;
+    }
+
+
+</script>
+
 </head>
 <body>
 <h1>회원 가입</h1>
-<form action="joinOk.jsp" method="post">
+<form action="joinOk.jsp" method="post" onsubmit="return validateAddress();">
+
     <label for="name">이름:</label>
-    <input type="text" name="name" placeholder="이름을 입력해주세요.">
+    <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required value="${param.name}">
 
     <label for="id">아이디:</label>
-    <input type="text" name="id" placeholder="아이디를 입력해주세요.">
+    <input type="text" name="id" id = "id" placeholder="아이디를 입력해주세요." required value="${param.id}">
 
     <label for="pw">비밀번호:</label>
-    <input type="password" name="pw" placeholder="영문 숫자로 구성하며 최소 4글자 이상 필요합니다.">
-
+    <input type="password" name="pw" id="pw" placeholder="영문 숫자로 구성하며 최소 4글자 이상 필요합니다." required value="${param.pw}">
+    <label for="pwck">비밀번호 확인</label>
+    <input type="password" name="pwck" id="pwck" required value="${param.pwck}">
+    
     <label for="phone">전화번호:</label>
     <input type="text" id="phone" name="phone" oninput="limitPhoneNumber()" pattern="[0-9]{11}"
-           placeholder="전화번호를 입력해주세요.">
+           placeholder="전화번호를 입력해주세요." required value="${param.phone}">
 
     <label for="address">주소:</label>
     <input type="text" id="sample6_postcode" placeholder="우편번호">
@@ -123,7 +175,7 @@
 
 
     <label for="email">이메일:</label>
-    <input type="email" name="email" placeholder="이메일 형식을 맞춰주세요 @">
+    <input type="email" name="email" placeholder="이메일을 입력해주세요." required value="${param.email}">
     <button type="submit" formaction="mail.do" name="sendMail">인증 메일 발송</button>
     <br />인증번호: <input type="text" name="verifyCode">
     <button type="button" onclick="checkCode()">코드 확인</button>

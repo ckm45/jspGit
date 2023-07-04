@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
-    Kakao.init("24b135b96ea4820e030dd2802041d7bb");
+    Kakao.init(""); //api 키값 
     function kakaoLogin() {
         Kakao.Auth.login({
             success: function (response) {

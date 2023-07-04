@@ -20,7 +20,7 @@ public class kakaoLoginCommand implements memberCommand {
         if (reader != null) {
             json = reader.readLine();
         }
-
+        
         // JSON 데이터 처리
         // 예시로 출력만 함
         System.out.println("Received JSON Data: " + json);

@@ -9,7 +9,7 @@ public class mailCommand implements memberCommand {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        String email = request.getParameter("sendMail");
+        String email = request.getParameter("email");
         MemberDao dao = new MemberDao();
         
         String verifyCode = dao.mailSend(email);
