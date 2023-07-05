@@ -194,6 +194,18 @@ public class MemberDto {
     public void setWithdrawalDate(String withdrawalDate) {
         this.withdrawalDate = withdrawalDate;
     }
+
+
+
+    @Override
+    public String toString() {
+        return "MemberDto [id=" + id + ", userId=" + userId + ", userPw=" + userPw + ", name="
+                + name + ", simplePw=" + simplePw + ", email=" + email + ", phone=" + phone
+                + ", personID=" + personID + ", gender=" + gender + ", birth=" + birth
+                + ", zipcode=" + zipcode + ", address=" + address + ", detailAddress="
+                + detailAddress + ", regDate=" + regDate + ", accountStatus=" + accountStatus
+                + ", withdrawalDate=" + withdrawalDate + "]";
+    }
     
     
     
