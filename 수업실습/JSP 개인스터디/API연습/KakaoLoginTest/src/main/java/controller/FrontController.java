@@ -91,26 +91,37 @@ public class FrontController extends HttpServlet {
             
             System.out.println("mail.do");
             viewPage = "join.jsp";
+            // 포워딩
+            RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+            reqDpt.forward(request, response);
+            
         }
         else if(command.equals("/view/join.do")) {
             memberCommand mc = new joinCommand();
             mc.execute(request, response);
             viewPage = "joinOk.jsp";
+            // 포워딩
+            RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+            reqDpt.forward(request, response);
+            
+            
         }
         else if(command.equals("/view/login.do")) {
             memberCommand mc = new loginCommand();
             mc.execute(request, response);
             viewPage = "loginOk.jsp";
+            // 포워딩
+            RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+            reqDpt.forward(request, response);
+            
         }
         else if(command.equals("/view/checkDuplicateId.do")) {
             memberCommand mc = new checkIdCommand();
             mc.execute(request, response);
             
+            
         }
         
-        // 포워딩
-//        RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
-//        reqDpt.forward(request, response);
-        
+  
     }
 }

@@ -1,74 +1,77 @@
 <!-- 1차 수정중 -->
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>회원 가입</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        h1 {
-            text-align: center;
-        }
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"],
-        input[type="password"],
-        input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-        }
-        input[type="button"],
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 14px;
-            border: none;
-            cursor: pointer;
-        }
-        input[type="button"]:hover,
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-        
-         /* 주민등록번호 입력란 스타일 */
-        .personal-id-input {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+<meta charset="UTF-8">
+<title>회원 가입</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+}
 
-        .personal-id-input input[type="text"] {
-            flex: 1;
-            padding: 10px;
-            margin-right: 5px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            text-align: center;
-        }
-        
-        .personal-id-input span {
-            font-size: 18px; /* 조정된 사이즈로 변경 */
-            margin-right: 5px; /* 간격 조정 */
-        }
-    </style>
-    <script>
+h1 {
+	text-align: center;
+}
+
+form {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+input[type="text"], input[type="password"], input[type="email"] {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	font-size: 14px;
+}
+
+input[type="button"], input[type="submit"] {
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: #4CAF50;
+	color: white;
+	font-size: 14px;
+	border: none;
+	cursor: pointer;
+}
+
+input[type="button"]:hover, input[type="submit"]:hover {
+	background-color: #45a049;
+}
+
+/* 주민등록번호 입력란 스타일 */
+.personal-id-input {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.personal-id-input input[type="text"] {
+	flex: 1;
+	padding: 10px;
+	margin-right: 5px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	font-size: 14px;
+	text-align: center;
+}
+
+.personal-id-input span {
+	font-size: 18px; /* 조정된 사이즈로 변경 */
+	margin-right: 5px; /* 간격 조정 */
+}
+</style>
+<script>
         function limitPhoneNumber() {
             var phoneNumberInput = document.getElementById('phone');
             var phoneNumber = phoneNumberInput.value;
@@ -105,8 +108,9 @@
             input.value = digits;
         }
     </script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -243,6 +247,7 @@
 </script>
 
 <script>
+  var idCk = false;
   function checkDuplicateId() {
     var id = document.getElementById("id").value; // 입력된 아이디 가져오기
     
@@ -252,85 +257,114 @@
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     console.log("readyState:", xhr.readyState, "status:", xhr.status);
     xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        var response = xhr.responseText; // AJAX 응답 받기
-        var ckResult = response === "true"; // 중복 결과에 따라 ckResult 설정
+    	  console.log("readyState:", xhr.readyState, "status:", xhr.status);
+    	  if (xhr.readyState === 4) {
+    	    if (xhr.status === 200) {
+    	      var response = xhr.responseText; // AJAX 응답 받기
+    	      var ckResult = response === "true"; // 중복 결과에 따라 ckResult 설정
+
         // ckResult 값에 따른 로직 처리
         if (ckResult) {
-          document.getElementById("id").disabled = true;
+          idCk = true;
+/*           document.getElementById("id").disabled = true;
           document.getElementById("id").readOnly = true;
           document.getElementById("id").style.backgroundColor = "#f0f0f0";
-          document.querySelector("button[type='button']").disabled = true;
+          document.querySelector("button[type='button']").disabled = true; */
           
-          document.getElementById("pw").disabled = false;
-          document.getElementById("pwck").disabled = false;
-          document.getElementById("simplePw").disabled = false;
-          document.getElementById("personal_id_1").disabled = false;
-          document.getElementById("personal_id_2").disabled = false;
-          document.getElementById("phone").disabled = false;
-          document.getElementById("sample6_postcode").disabled = false;
-          document.getElementById("sample6_address").disabled = false;
-          document.getElementById("sample6_detailAddress").disabled = false;
-          document.querySelector("input[name='email']").disabled = false;
-          document.querySelector("button[name='sendMail']").disabled = false;
-          document.querySelector("input[name='verifyCode']").disabled = false;
-          document.querySelector("button[type='submit']").disabled = false;
+          alert("아이디 사용이 가능합니다.")
         } else {
           alert("중복된 아이디입니다. 다른 아이디를 입력해주세요.");
         }
-      }else {
-    	  alert("오류가 발생했습니다. 다시 시도해주세요.");
       }
-    };
+    } else {
+        console.log('Error:', xhr.status, xhr.statusText); // 추가된 에러 메시지
+      }
+    }
+  
     xhr.send("id=" + encodeURIComponent(id)); // 요청 전달 데이터 설정
   }
+  
+  
+  
+  function validateId() {
+	    var idField = document.getElementById("id");
+	    var idButton = document.querySelector("button[type='button']");
+	    
+	    if (idCk) {
+	      return true;
+	    } else {
+	    	alert("아이디 중복체크가 필요합니다.")
+	      return false;
+	    }
+	  }
 </script>
-
+<script>
+  function sendMail() {
+    // 인증 메일 발송 동작 수행
+    // 예: AJAX 요청 등을 사용하여 mail.do로 요청을 보내고 처리하는 동작을 수행
+    // 예시 코드:
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "mail.do", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        // 요청이 완료되었을 때의 동작
+        // 예: 응답을 처리하거나 결과를 보여주는 등의 동작 수행
+        console.log(xhr.responseText);
+      }
+    };
+    xhr.send("verifyCode=" + encodeURIComponent(verifyCode)); // 요청 전달 데이터 설정
+  }
+</script> 
 </head>
 <body>
-<h1>회원 가입</h1>
-<form action="join.do" method="post" onsubmit="return validatePersonalId() && validateSimplePw() && validateAddress() && checkFormEmailCode();">
-  <label for="name">이름:</label>
-  <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required value="${param.name}">
-  
-  <label for="id">아이디:</label>
-  <input type="text" name="id" id="id" placeholder="아이디를 입력해주세요." required value="${param.id}">
-  <button type="button" onclick="checkDuplicateId()">중복 확인</button>
-    <label for="pw">비밀번호:</label>
-    <input type="password" name="pw" id="pw" placeholder="영문 숫자로 구성하며 최소 4글자 이상 필요합니다." required value="${param.pw}">
-    <label for="pwck">비밀번호 확인</label>
-    <input type="password" name="pwck" id="pwck" required value="${param.pwck}">
-  
-    <label for="simplePw">간편 비밀번호</label>
-    <input type="password" name="simplePw" id="simplePw" placeholder="간편 비밀번호 6자리를 입력해주세요." required value="${param.simplePw}" oninput="limitSimplePw(this)" maxlength="6">
-  
-    <label for="personal_id">주민등록번호</label>
-    <div class="personal-id-input">
-      <input type="text" name="personal_id_1" id="personal_id_1" placeholder="6자리" required maxlength="6" oninput="limitPersonalId(this)">
-      <span>-</span>
-      <input type="text" name="personal_id_2" id="personal_id_2" placeholder="7자리" required maxlength="7" oninput="limitPersonalId(this)">
-    </div>
-  
-    <label for="phone">전화번호:</label>
-    <input type="text" id="phone" name="phone" oninput="limitPhoneNumber()" pattern="[0-9]{11}" placeholder="전화번호를 입력해주세요." required value="${param.phone}">
-  
-    <label for="address">주소:</label>
-    <input type="text" id="sample6_postcode" name="zipcode" placeholder="우편번호">
-    <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
-    <br>
-    <input type="text" id="sample6_address" name="address" placeholder="주소">
-    <br>
-    <input type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소">
-  
-    <label for="email">이메일:</label>
-    <input type="email" name="email" placeholder="이메일을 입력해주세요." required value="${param.email}">
-    <button type="submit" formaction="mail.do" name="sendMail">인증 메일 발송</button>
-    <br />인증번호: <input type="text" name="verifyCode">
-    <button type="button" onclick="checkCode()">코드 확인</button>
-    &nbsp;&nbsp;
-    <input type="submit" value="회원가입요청">
-</form>
-    <script>
+	<h1>회원 가입</h1>
+	<form action="join.do" method="post"
+		onsubmit="return validateId() && validatePersonalId() && validateSimplePw() && validateAddress() && checkFormEmailCode();">
+		<label for="name">이름:</label>
+	    <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required value="${param.name}"> 
+	    <label for="id">아이디:</label> 
+	    <input type="text" name="id" id="id" placeholder="아이디를 입력해주세요." required value="${param.id}">
+		<button type="button" onclick="checkDuplicateId()">중복 확인</button>
+		<label for="pw">비밀번호:</label> 
+		<input type="password" name="pw" id="pw" placeholder="영문 숫자로 구성하며 최소 4글자 이상 필요합니다." required value="${param.pw}"> 
+		<label for="pwck">비밀번호 확인</label> 
+		<input type="password" name="pwck" id="pwck" required value="${param.pwck}">
+		<label for="simplePw">간편 비밀번호</label> <input type="password" name="simplePw" id="simplePw" placeholder="간편 비밀번호 6자리를 입력해주세요." required value="${param.simplePw}" oninput="limitSimplePw(this)"
+			maxlength="6"> 
+		<label for="personal_id">주민등록번호</label>
+		<div class="personal-id-input">
+			<input type="text" name="personal_id_1" id="personal_id_1"
+				placeholder="6자리" required maxlength="6"
+				oninput="limitPersonalId(this)"> <span>-</span> <input
+				type="text" name="personal_id_2" id="personal_id_2"
+				placeholder="7자리" required maxlength="7"
+				oninput="limitPersonalId(this)">
+		</div>
+
+		<label for="phone">전화번호:</label> <input type="text" id="phone"
+			name="phone" oninput="limitPhoneNumber()" pattern="[0-9]{11}"
+			placeholder="전화번호를 입력해주세요." required value="${param.phone}">
+
+		<label for="address">주소:</label> <input type="text"
+			id="sample6_postcode" name="zipcode" placeholder="우편번호"> <input
+			type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+		<br> <input type="text" id="sample6_address" name="address"
+			placeholder="주소"> <br> <input type="text"
+			id="sample6_detailAddress" name="detailAddress" placeholder="상세주소">
+
+		<label for="email">이메일:</label> <input type="email" name="email"
+			placeholder="이메일을 입력해주세요." required value="${param.email}">
+		<!-- <button type="submit" formaction="mail.do" name="sendMail">인증
+			메일 발송</button>
+			 -->
+	    <button type="button" onclick="sendMail()">인증 메일 발송</button>		 
+	
+		<br />인증번호: <input type="text" name="verifyCode">
+		<button type="button" onclick="checkCode()">코드 확인</button>
+		&nbsp;&nbsp; <input type="submit" value="회원가입요청">
+	</form>
+	<script>
         function checkCode() {
             var verifyCode = "${verifyCode}";
             var inputCode = document.querySelector('input[name="verifyCode"]').value;
