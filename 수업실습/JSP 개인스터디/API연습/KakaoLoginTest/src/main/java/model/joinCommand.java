@@ -5,6 +5,7 @@ import daodto.MemberDao;
 import daodto.MemberDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class joinCommand implements memberCommand {
     @Override
@@ -23,7 +24,7 @@ public class joinCommand implements memberCommand {
         String address = request.getParameter("address");
         String detailAddress = request.getParameter("detailAddress");
         
-        MemberDto dto = new MemberDto(userId, userPw, name, simplePw, email, phone, personID, zipcode, address, detailAddress);
+        MemberDto dto = new MemberDto(userId, name, userPw, simplePw, email, phone, personID, zipcode, address, detailAddress);
         
         
         // 주민등록번호에서 7번째 자리 값 확인
@@ -39,7 +40,18 @@ public class joinCommand implements memberCommand {
         dto.setBirth(birth);
         
         MemberDao dao = new MemberDao();
-        dao.joinMember(dto);
+        if(dao.personIdCheck(dto)) {
+            dao.joinMember(dto);
+            request.setAttribute("status",true);
+
+        }else {
+            System.out.println("else 시작");
+            request.setAttribute("status",false);
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "이미 가입된 회원입니다.");
+        }   
+        //redirect 해서 다시 이동  
+        //컨트롤러에서 forward해서 오류 난듯 
     }
 
 }

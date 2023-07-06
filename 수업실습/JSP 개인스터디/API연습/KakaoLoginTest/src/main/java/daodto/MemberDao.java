@@ -20,7 +20,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 public class MemberDao {
-    
+
     private DataSource ds;
 
     public MemberDao() {
@@ -31,62 +31,61 @@ public class MemberDao {
             e.printStackTrace();
         }
     }
-    
-    //회원가입 시 중복 아이디 검사
+
+    // 회원가입 시 중복 아이디 검사
     public boolean checkId(String uId) {
 
-            boolean ck = false;
+        boolean ck = false;
 
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
-            try {
-                    System.out.println("id중복체크 시작");
-                    conn = ds.getConnection();
-                    stmt = conn.createStatement();
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            System.out.println("id중복체크 시작");
+            conn = ds.getConnection();
+            stmt = conn.createStatement();
 
-                    // 쿼리를 수정하여 조건에 맞는 회원을 가져옵니다.
-                    String query = "SELECT * FROM member_test WHERE user_id = '" + uId + "'";
-                    rs = stmt.executeQuery(query);
-                    
-                    if (rs.next()) {
-                        // 이미 해당 아이디가 존재하는 경우
-                        System.out.println("join fail");
-                    } else {
-                        // 해당 아이디가 존재하지 않는 경우
-                        ck = true;
-                    }
-                
-            } catch (Exception e) {
-                // TODO: handle exception
-                e.printStackTrace();
-            } finally {
-                try {
+            // 쿼리를 수정하여 조건에 맞는 회원을 가져옵니다.
+            String query = "SELECT * FROM member_hana WHERE member_id = '" + uId + "'";
+            rs = stmt.executeQuery(query);
 
-                    if (rs != null)
-                        rs.close();
-                    if (stmt != null)
-                        stmt.close();
-                    if (conn != null)
-                        conn.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            if (rs.next()) {
+                // 이미 해당 아이디가 존재하는 경우
+                System.out.println("join fail");
+            } else {
+                // 해당 아이디가 존재하지 않는 경우
+                ck = true;
             }
-            System.out.println(ck);
-            return ck;
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        
-    
-    
-    public void insertMember(long id, String nickName) {
+        System.out.println(ck);
+        return ck;
+    }
+
+
+    // 카카오 회원가입 아직 보류
+    public void insertKaKaoMember(long id, String nickName) {
         System.out.println("insert메소드 시작");
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
-        String query =
-                "INSERT INTO KAKAOTEST (ID, NICKNAME)\r\n" + "VALUES (?, ?)";
+
+        String query = "INSERT INTO KAKAOTEST (ID, NICKNAME)\r\n" + "VALUES (?, ?)";
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
@@ -118,7 +117,7 @@ public class MemberDao {
         }
 
     }
-    
+
     public String mailSend(String email) {
         String verificationCode = "";
         String host = "smtp.naver.com"; // 네이버 SMTP 서버
@@ -169,7 +168,7 @@ public class MemberDao {
 
         return verificationCode;
     }
-    
+
     public String generateVerificationCode() {
         Random random = new Random();
         StringBuilder sb = new StringBuilder();
@@ -182,34 +181,80 @@ public class MemberDao {
 
         return sb.toString();
     }
-    
+
+    // 회원가입시 주민등록번호 중복 체크
+    public boolean personIdCheck(MemberDto dto) {
+        boolean ck = false;
+
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            System.out.println("if문 시작");
+            conn = ds.getConnection();
+            stmt = conn.createStatement();
+
+            // 쿼리를 수정하여 조건에 맞는 회원을 가져옵니다.
+            String query = "SELECT * FROM member_hana WHERE personal_id_number = '"
+                    + dto.getPersonalIdNumber() + "'";
+            rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                // 이미 해당 아이디가 존재하는 경우
+                System.out.println("join fail");
+            } else {
+                // 해당 아이디가 존재하지 않는 경우
+                ck = true;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(ck);
+        return ck;
+    }
+
+    // boolean 리턴하고
     public void joinMember(MemberDto dto) {
-        
+
         System.out.println("insert메소드 시작");
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
+
         String query =
-                "INSERT INTO member_test (user_id, name, user_password, easy_password, email, phone, personal_id_number, gender, birth, zipcode, address, detail_address, account_status, withdrawal_date)\r\n" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "INSERT INTO member_hana (member_id, name, user_password, easy_password, email, phone, personal_id_number, gender, birth, zipcode, address, detail_address, account_status, withdrawal_date)\r\n"
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
             conn = ds.getConnection();
             pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, dto.getUserId());
+            pstmt.setString(1, dto.getMemberId());
             pstmt.setString(2, dto.getName());
-            pstmt.setString(3, dto.getUserPw());
-            pstmt.setString(4, dto.getSimplePw());
+            pstmt.setString(3, dto.getUserPassword());
+            pstmt.setString(4, dto.getEasyPassword());
             pstmt.setString(5, dto.getEmail());
             pstmt.setString(6, dto.getPhone());
-            pstmt.setString(7, dto.getPersonID());
+            pstmt.setString(7, dto.getPersonalIdNumber());
             pstmt.setString(8, dto.getGender());
             pstmt.setString(9, dto.getBirth());
             pstmt.setString(10, dto.getZipcode());
             pstmt.setString(11, dto.getAddress());
             pstmt.setString(12, dto.getDetailAddress());
-            pstmt.setString(13, dto.getAccountStatus());
+            pstmt.setInt(13, dto.getAccountStatus());
             pstmt.setString(14, dto.getWithdrawalDate());
             int iResult = pstmt.executeUpdate();
 
@@ -233,9 +278,9 @@ public class MemberDao {
                 e.printStackTrace();
             }
         }
-
     }
-    
+
+
     public MemberDto memberLoginCheck(String ckId, String ckPw) {
         boolean ck = false;
         System.out.println("login체크");
@@ -246,33 +291,33 @@ public class MemberDao {
         try {
             conn = ds.getConnection();
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from member_test where user_id = '" + ckId + "'");
-            
+            rs = stmt.executeQuery("select * from member_hana where member_id = '" + ckId + "'");
+
             while (rs.next()) {
-                String uId = rs.getString("user_id");
-                String pw = rs.getString("user_password");
-                System.out.println("id: " + uId + "|pw : " + pw);
-                if (ckId.equals(uId) && ckPw.equals(pw)) {
-                    int id = rs.getInt("id");
+                String memberId = rs.getString("member_id");
+                String userPassword = rs.getString("user_password");
+                System.out.println("id: " + memberId + "|pw : " + userPassword);
+                if (ckId.equals(memberId) && ckPw.equals(userPassword)) {
                     String name = rs.getString("name");
-                    String simplePw = rs.getString("easy_password");
+                    String easyPassword = rs.getString("easy_password");
                     String email = rs.getString("email");
                     String phone = rs.getString("phone");
-                    String personId = rs.getString("personal_id_number");
+                    String personalIdNumber = rs.getString("personal_id_number");
                     String gender = rs.getString("gender");
                     String birth = rs.getString("birth");
                     String zipcode = rs.getString("zipcode");
                     String address = rs.getString("address");
-                    String detailAddress= rs.getString("detail_address");
+                    String detailAddress = rs.getString("detail_address");
                     String regDate = rs.getString("reg_date");
-                    String accountStatus = rs.getString("account_status");
+                    int accountStatus = rs.getInt("account_status");
                     String withdrawalDate = rs.getString("withdrawal_date");
-                    
-                    
+
+
                     ck = true;
-                    dto = new MemberDto(id, uId, pw, name, simplePw, email,
-                            phone, personId, gender, birth, zipcode, address, detailAddress, regDate, accountStatus, withdrawalDate);
-                    
+                    dto = new MemberDto(memberId, name, userPassword, easyPassword, email, phone,
+                            personalIdNumber, gender, birth, zipcode, address, detailAddress,
+                            regDate, accountStatus, withdrawalDate);
+
                 } else {
                     System.out.println("login fail");
                 }

@@ -1,4 +1,3 @@
-<!-- 1차 수정중 -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -346,6 +345,21 @@ input[type="button"]:hover, input[type="submit"]:hover {
 </head>
 <body>
 	<h1>회원 가입</h1>
+    <% String message = (String)session.getAttribute("message"); %>
+
+<script>
+    console.log('message:', '<%= message %>');
+    console.log('typeof message:', typeof '<%= message %>');
+</script>
+    <%
+        session.invalidate();
+    %>
+    <script>
+        var message = '<%= message %>';
+        if (message !== 'null' && message !== '') {
+            alert(message);
+        }
+    </script>
 	<form action="join.do" method="post"
         onsubmit="return validateId() && validatePersonalId() && validateSimplePw() && validateAddress() && validateEmail()">
 		<label for="name">이름:</label>
@@ -389,6 +403,8 @@ input[type="button"]:hover, input[type="submit"]:hover {
 		<br />인증번호: <input type="text" name="verifyCode">
 		<button type="button" onclick="checkCode()">코드 확인</button>
 		&nbsp;&nbsp; <input type="submit" value="회원가입요청">
+		
 	</form>
+    <a href="main.jsp">메인으로</a>
 </body>
 </html>

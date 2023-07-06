@@ -16,7 +16,10 @@
 <body>
 	<c:if test="${loginResult == true}">
     로그인 성공
+    
     </c:if>
+    <br/>
+	<a href="main.jsp">메인으로 가기</a>
 	<c:if test="${loginResult == false}">
 		<script>
 			showMessageAndRedirect();

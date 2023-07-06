@@ -9,7 +9,7 @@
 <script type="text/javascript"
 	src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
-    Kakao.init(""); //api 키값 
+    Kakao.init("); //api 키값 
     
     
     function kakaoLogout() {

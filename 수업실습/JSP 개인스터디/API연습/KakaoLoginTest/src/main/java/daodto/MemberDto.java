@@ -1,36 +1,38 @@
 package daodto;
 
+import java.util.Date;
+
 public class MemberDto {
-    private int id;
-    private String userId;
-    private String userPw;
+    private String memberId;
     private String name;
-    private String simplePw;
+    private String userPassword;
+    private String easyPassword;
     private String email;
     private String phone;
-    private String personID;
+    private String personalIdNumber;
     private String gender;
     private String birth;
     private String zipcode;
     private String address;
     private String detailAddress;
     private String regDate;
-    private String accountStatus;
+    private int accountStatus;
     private String withdrawalDate;
+
     
-    public MemberDto(int id, String userId, String userPw, String name, String simplePw, String email,
-            String phone, String personID, String gender, String birth, String zipcode,
-            String address, String detailAddress, String regDate, String accountStatus,
+
+    public MemberDto(String memberId, String name, String userPassword, String easyPassword,
+            String email, String phone, String personalIdNumber, String gender, String birth,
+            String zipcode, String address, String detailAddress, String regDate, int accountStatus,
             String withdrawalDate) {
-    
-        this.id = id;
-        this.userId = userId;
-        this.userPw = userPw;
+        super();
+        this.memberId = memberId;
         this.name = name;
-        this.simplePw = simplePw;
+        this.userPassword = userPassword;
+        this.easyPassword = easyPassword;
         this.email = email;
         this.phone = phone;
-        this.personID = personID;
+        this.personalIdNumber = personalIdNumber;
         this.gender = gender;
         this.birth = birth;
         this.zipcode = zipcode;
@@ -41,56 +43,37 @@ public class MemberDto {
         this.withdrawalDate = withdrawalDate;
     }
     
-    
-
-    public MemberDto(String userId, String userPw, String name, String simplePw, String email,
-            String phone, String personID, String zipcode,
+    public MemberDto(String memberId, String name, String userPassword, String easyPassword, String email,
+            String phone, String personalIdNumber, String zipcode,
             String address, String detailAddress) {
         super();
-        this.id = 0;
-        this.userId = userId;
-        this.userPw = userPw;
+        this.memberId = memberId;
         this.name = name;
-        this.simplePw = simplePw;
+        this.userPassword = userPassword;
+        this.easyPassword = easyPassword;
         this.email = email;
         this.phone = phone;
-        this.personID = personID;
+        this.personalIdNumber = personalIdNumber;
         this.gender = null;
         this.birth = null;
         this.zipcode = zipcode;
         this.address = address;
         this.detailAddress = detailAddress;
         this.regDate = null;
-        this.accountStatus = "T";
+        this.accountStatus = 1;
         this.withdrawalDate = null;
     }
-
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserPw() {
-        return userPw;
-    }
-
-    public void setUserPw(String userPw) {
-        this.userPw = userPw;
-    }
     
+    
+
+    public String getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
     public String getName() {
         return name;
     }
@@ -99,12 +82,20 @@ public class MemberDto {
         this.name = name;
     }
 
-    public String getSimplePw() {
-        return simplePw;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setSimplePw(String simplePw) {
-        this.simplePw = simplePw;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
+
+    public String getEasyPassword() {
+        return easyPassword;
+    }
+
+    public void setEasyPassword(String easyPassword) {
+        this.easyPassword = easyPassword;
     }
 
     public String getEmail() {
@@ -123,12 +114,12 @@ public class MemberDto {
         this.phone = phone;
     }
 
-    public String getPersonID() {
-        return personID;
+    public String getPersonalIdNumber() {
+        return personalIdNumber;
     }
 
-    public void setPersonID(String personID) {
-        this.personID = personID;
+    public void setPersonalIdNumber(String personalIdNumber) {
+        this.personalIdNumber = personalIdNumber;
     }
 
     public String getGender() {
@@ -171,6 +162,7 @@ public class MemberDto {
         this.detailAddress = detailAddress;
     }
 
+
     public String getRegDate() {
         return regDate;
     }
@@ -179,11 +171,11 @@ public class MemberDto {
         this.regDate = regDate;
     }
 
-    public String getAccountStatus() {
+    public int getAccountStatus() {
         return accountStatus;
     }
 
-    public void setAccountStatus(String accountStatus) {
+    public void setAccountStatus(int accountStatus) {
         this.accountStatus = accountStatus;
     }
 
@@ -197,18 +189,4 @@ public class MemberDto {
 
 
 
-    @Override
-    public String toString() {
-        return "MemberDto [id=" + id + ", userId=" + userId + ", userPw=" + userPw + ", name="
-                + name + ", simplePw=" + simplePw + ", email=" + email + ", phone=" + phone
-                + ", personID=" + personID + ", gender=" + gender + ", birth=" + birth
-                + ", zipcode=" + zipcode + ", address=" + address + ", detailAddress="
-                + detailAddress + ", regDate=" + regDate + ", accountStatus=" + accountStatus
-                + ", withdrawalDate=" + withdrawalDate + "]";
-    }
-    
-    
-    
-    
-    
 }

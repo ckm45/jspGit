@@ -8,7 +8,7 @@
 </head>
 <body>
     <h2>회원가입 성공</h2>
-    
+    <a href="main.jsp">메인으로 돌아가기</a>
     
 </body>
 </html>

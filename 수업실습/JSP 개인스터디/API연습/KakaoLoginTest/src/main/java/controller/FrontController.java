@@ -100,11 +100,16 @@ public class FrontController extends HttpServlet {
         else if(command.equals("/view/join.do")) {
             memberCommand mc = new joinCommand();
             mc.execute(request, response);
-            viewPage = "joinOk.jsp";
-            // 포워딩
-            RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
-            reqDpt.forward(request, response);
-            
+            if((boolean) request.getAttribute("status")) {
+                viewPage = "joinOk.jsp";
+                // 포워딩
+                RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+                reqDpt.forward(request, response);
+                
+            }else {
+                response.sendRedirect("join.jsp");
+            }
+ 
             
         }
         else if(command.equals("/view/login.do")) {
