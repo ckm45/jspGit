@@ -87,13 +87,14 @@ public class FrontController extends HttpServlet {
         }
         else if(command.equals("/view/mail.do")) {
             memberCommand mc = new mailCommand();
+            System.out.println("1");
             mc.execute(request, response);
             
             System.out.println("mail.do");
-            viewPage = "join.jsp";
+            //viewPage = "join.jsp";
             // 포워딩
-            RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
-            reqDpt.forward(request, response);
+            //RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+            //reqDpt.forward(request, response);
             
         }
         else if(command.equals("/view/join.do")) {

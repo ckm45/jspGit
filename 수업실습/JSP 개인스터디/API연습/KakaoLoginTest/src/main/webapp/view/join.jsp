@@ -216,7 +216,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
     }
     
     // 추가 
-    function checkFormEmailCode() {
+/*     function checkFormEmailCode() {
     // 추가적인 유효성 검사 규칙을 여기에 작성합니다.
     // 이메일 인증번호를 입력하지 않았을 때 폼 제출이 안되도록 검사합니다.
     var verifyCodeInput = document.querySelector('input[name="verifyCode"]');
@@ -232,7 +232,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
     }
 
     // 인증번호가 일치하는지 확인합니다.
-    var verifyCode = "${verifyCode}";s
+    var verifyCode = "${verifyCode}";
     var inputCode = verifyCodeInput.value.trim();
     if (verifyCode !== inputCode) {
         alert("인증번호가 일치하지 않습니다.");
@@ -241,7 +241,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
 
     return true;
 }
-
+ */
 
     
 </script>
@@ -261,6 +261,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
     	  if (xhr.readyState === 4) {
     	    if (xhr.status === 200) {
     	      var response = xhr.responseText; // AJAX 응답 받기
+    	     
     	      var ckResult = response === "true"; // 중복 결과에 따라 ckResult 설정
 
         // ckResult 값에 따른 로직 처리
@@ -287,8 +288,8 @@ input[type="button"]:hover, input[type="submit"]:hover {
   
   
   function validateId() {
-	    var idField = document.getElementById("id");
-	    var idButton = document.querySelector("button[type='button']");
+	   // var idField = document.getElementById("id");
+	   // var idButton = document.querySelector("button[type='button']");
 	    
 	    if (idCk) {
 	      return true;
@@ -299,28 +300,54 @@ input[type="button"]:hover, input[type="submit"]:hover {
 	  }
 </script>
 <script>
-  function sendMail() {
-    // 인증 메일 발송 동작 수행
-    // 예: AJAX 요청 등을 사용하여 mail.do로 요청을 보내고 처리하는 동작을 수행
-    // 예시 코드:
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "mail.do", true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        // 요청이 완료되었을 때의 동작
-        // 예: 응답을 처리하거나 결과를 보여주는 등의 동작 수행
-        console.log(xhr.responseText);
+    var verifyCode = ""; // 인증 코드를 저장할 변수
+
+    function sendMail() {
+      var email = document.querySelector("input[name='email']").value; // 이메일 값 가져오기
+      console.log(email);
+      // 인증 메일 발송 동작 수행
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "mail.do", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          verifyCode = xhr.responseText; // AJAX 응답 받기
+          console.log(xhr.responseText);
+          // 인증 코드를 받은 후에 다른 처리를 수행
+          // 예: 화면에 인증 코드 입력 필드를 표시하거나, 인증 코드를 이용한 추가 동작 수행 등
+        }
+      };
+      xhr.send("email=" + encodeURIComponent(email));
+
+      // 인증 코드를 받은 후의 동작을 여기에 추가
+    }
+    var codeCk = false;
+    function checkCode() {
+        var inputCode = document.querySelector('input[name="verifyCode"]').value;
+        if (verifyCode === inputCode) {
+            alert("인증 성공");
+            codeCk = true; // codeCk를 지역 변수로 변경
+        } else {
+            alert("인증번호가 일치하지 않습니다.");
+            codeCk = false; // codeCk를 지역 변수로 변경
+        }
+        return codeCk; // codeCk 값을 반환
+    }
+    
+    function validateEmail() {
+    	if (codeCk) {
+          return true;
+        } else {
+            alert("메일 인증이 필요합니다.")
+          return false;
+        }
       }
-    };
-    xhr.send("verifyCode=" + encodeURIComponent(verifyCode)); // 요청 전달 데이터 설정
-  }
 </script> 
 </head>
 <body>
 	<h1>회원 가입</h1>
 	<form action="join.do" method="post"
-		onsubmit="return validateId() && validatePersonalId() && validateSimplePw() && validateAddress() && checkFormEmailCode();">
+        onsubmit="return validateId() && validatePersonalId() && validateSimplePw() && validateAddress() && validateEmail()">
 		<label for="name">이름:</label>
 	    <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required value="${param.name}"> 
 	    <label for="id">아이디:</label> 
@@ -359,21 +386,9 @@ input[type="button"]:hover, input[type="submit"]:hover {
 			메일 발송</button>
 			 -->
 	    <button type="button" onclick="sendMail()">인증 메일 발송</button>		 
-	
 		<br />인증번호: <input type="text" name="verifyCode">
 		<button type="button" onclick="checkCode()">코드 확인</button>
 		&nbsp;&nbsp; <input type="submit" value="회원가입요청">
 	</form>
-	<script>
-        function checkCode() {
-            var verifyCode = "${verifyCode}";
-            var inputCode = document.querySelector('input[name="verifyCode"]').value;
-            if (verifyCode === inputCode) {
-                alert("인증 성공");
-            } else {
-                alert("인증번호가 일치하지 않습니다.");
-            }
-        }
-    </script>
 </body>
 </html>
