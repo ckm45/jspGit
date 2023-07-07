@@ -19,6 +19,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+
 public class MemberDao {
 
     private DataSource ds;
@@ -79,13 +80,13 @@ public class MemberDao {
 
 
     // 카카오 최초 로그인 메소드
-    public void insertKaKaoMember(String id, String nickName) {
+    public void insertKaKaoMember(String id, String nickName, String email) {
         System.out.println("insert메소드 시작");
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        int accountStatus = 1; //최초 로그인 시 상태값 정상
-        String query = "INSERT INTO member_hana (member_id, name, account_status)\r\n" + "VALUES (?, ?, ?)";
+        int memberStatus = 1; //최초 로그인 시 상태값 정상
+        String query = "INSERT INTO member_hana (member_id, name, email, member_status)\r\n" + "VALUES (?, ?, ?, ?)";
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
@@ -93,7 +94,8 @@ public class MemberDao {
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, id);
             pstmt.setString(2, nickName);
-            pstmt.setInt(3, accountStatus);
+            pstmt.setString(3, email);
+            pstmt.setInt(4, memberStatus);
             int iResult = pstmt.executeUpdate();
 
             if (iResult >= 1) {
@@ -146,13 +148,13 @@ public class MemberDao {
                     String address = rs.getString("address");
                     String detailAddress = rs.getString("detail_address");
                     String regDate = rs.getString("reg_date");
-                    int accountStatus = rs.getInt("account_status");
+                    int member_status = rs.getInt("member_status");
                     String withdrawalDate = rs.getString("withdrawal_date");
 
 
                     dto = new MemberDto(memberId, name, userPassword, easyPassword, email, phone,
                             personalIdNumber, gender, birth, zipcode, address, detailAddress,
-                            regDate, accountStatus, withdrawalDate);
+                            regDate, member_status, withdrawalDate);
 
                 } else {
                     System.out.println("login fail");
@@ -175,6 +177,58 @@ public class MemberDao {
             }
         }
         return dto;
+    }
+    
+  //카카오 최초 로그인한 사람 추가 정보 입력
+    public void kakaoJoin(String id, String simplePw, String phone, String personID, String gender, String birth, String zipcode, String address, String detailAddress) {
+        System.out.println("update 시작 (카카오)");
+        Connection conn = null;
+        ResultSet rs = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            conn = ds.getConnection();
+
+            // SQL 쿼리 작성
+            String sql = "UPDATE member_hana SET easy_password = ? , phone = ?,  personal_id_number = ?, gender = ?, birth = ?, zipcode = ?, address = ?, detail_address = ?  WHERE member_id = ?";
+
+            // PreparedStatement 객체 생성
+            pstmt = conn.prepareStatement(sql);
+
+            // 매개변수 값 설정
+            pstmt.setString(1, simplePw);
+            pstmt.setString(2, phone);
+            pstmt.setString(3, personID);
+            pstmt.setString(4, gender);
+            pstmt.setString(5, birth);
+            pstmt.setString(6, zipcode);
+            pstmt.setString(7, address);
+            pstmt.setString(8, detailAddress);
+            pstmt.setString(9, id);
+
+            // 쿼리 실행
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("update 성공");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 리소스 해제
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
 
     public String mailSend(String email) {
@@ -285,7 +339,7 @@ public class MemberDao {
         return ck;
     }
 
-    // boolean 리턴하고
+   
     public void joinMember(MemberDto dto) {
 
         System.out.println("insert메소드 시작");
@@ -294,7 +348,7 @@ public class MemberDao {
         ResultSet rs = null;
 
         String query =
-                "INSERT INTO member_hana (member_id, name, user_password, easy_password, email, phone, personal_id_number, gender, birth, zipcode, address, detail_address, account_status, withdrawal_date)\r\n"
+                "INSERT INTO member_hana (member_id, name, user_password, easy_password, email, phone, personal_id_number, gender, birth, zipcode, address, detail_address, member_status, withdrawal_date)\r\n"
                         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
@@ -313,7 +367,7 @@ public class MemberDao {
             pstmt.setString(10, dto.getZipcode());
             pstmt.setString(11, dto.getAddress());
             pstmt.setString(12, dto.getDetailAddress());
-            pstmt.setInt(13, dto.getAccountStatus());
+            pstmt.setInt(13, dto.getMemberStatus());
             pstmt.setString(14, dto.getWithdrawalDate());
             int iResult = pstmt.executeUpdate();
 
@@ -368,14 +422,14 @@ public class MemberDao {
                     String address = rs.getString("address");
                     String detailAddress = rs.getString("detail_address");
                     String regDate = rs.getString("reg_date");
-                    int accountStatus = rs.getInt("account_status");
+                    int member_status = rs.getInt("member_status");
                     String withdrawalDate = rs.getString("withdrawal_date");
 
 
                     ck = true;
                     dto = new MemberDto(memberId, name, userPassword, easyPassword, email, phone,
                             personalIdNumber, gender, birth, zipcode, address, detailAddress,
-                            regDate, accountStatus, withdrawalDate);
+                            regDate, member_status, withdrawalDate);
 
                 } else {
                     System.out.println("login fail");

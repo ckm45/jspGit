@@ -14,6 +14,31 @@
 		location.href = "login.jsp";
 	}
 </script>
+
+<script type="text/javascript"
+    src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script type="text/javascript">
+Kakao.init(""); // API 키값
+    
+    
+    function kakaoLogout() {
+         if (Kakao.Auth.getAccessToken()) {
+              Kakao.API.request({
+                url: '/v1/user/unlink',
+                success: function (response) {
+                    console.log(response)
+                    location.href="main.jsp"
+                    session.invalidate();
+                },
+                fail: function (error) {
+                  console.log(error)
+                },
+              })
+              Kakao.Auth.setAccessToken(undefined)
+            }
+        }
+
+</script>
 </head>
 <body>
     <c:if test="${loginResult == true}">
@@ -38,7 +63,7 @@
 	</c:if> 
 	
 
-
+    <a href="javascript:kakaoLogout()">로그아웃</a>
 
 </body>
 </html>

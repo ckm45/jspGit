@@ -33,16 +33,32 @@ public class kakaoLoginCommand implements memberCommand {
         JSONObject jsonObject = new JSONObject(json);
         JSONObject properties = jsonObject.getJSONObject("properties");
         String nickname = properties.getString("nickname");
+
+        //json 데이터 중 email 정제
+        JSONObject kakaoAccount = jsonObject.getJSONObject("kakao_account");
+        boolean hasEmail = kakaoAccount.getBoolean("has_email");
+        String email = null;
+        if (hasEmail) {
+            email = kakaoAccount.getString("email");
+        }
+        
+        
+        
         long id = jsonObject.getLong("id");
         String convertId = String.valueOf(id);
         System.out.println("ID: " + id);
         System.out.println("Nickname: " + nickname);
         
         if(dao.checkId(convertId)) { //존재하지 않으면 true, 존재하지 않을 때 
-            dao.insertKaKaoMember(convertId, nickname); //insert 후 추가 정보 받기 
-            request.setAttribute("status",false); //카카오 최초 로그인 (추가 정보 받아야됨)
-            
-            
+            HttpSession session = request.getSession();
+            session.setAttribute("kakaoId", convertId);
+            dao.insertKaKaoMember(convertId, nickname, email); //insert 후 추가 정보 받기 
+            response.setContentType("application/json");  // 콘텐트 타입을 application/json으로 설정
+            response.setCharacterEncoding("UTF-8");
+            PrintWriter out = response.getWriter();
+            String viewPage = "kakaoJoin.jsp";
+            out.print("{\"viewPage\":\"" + viewPage + "\"}");
+            out.flush();
         }else {
             
             dto = dao.memberLoginCheck(convertId);

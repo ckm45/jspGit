@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.checkIdCommand;
 import model.joinCommand;
+import model.kakaoJoinCommand;
 import model.kakaoLoginCommand;
 import model.loginCommand;
 import model.mailCommand;
@@ -126,6 +127,13 @@ public class FrontController extends HttpServlet {
             mc.execute(request, response);
             
             
+        }
+        else if(command.equals("/view/kakaoJoin.do")) {
+            memberCommand mc = new kakaoJoinCommand();
+            mc.execute(request,response);
+            viewPage = "main.jsp";
+            RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+            reqDpt.forward(request, response);
         }
         
   

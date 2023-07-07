@@ -15,14 +15,14 @@ public class MemberDto {
     private String address;
     private String detailAddress;
     private String regDate;
-    private int accountStatus;
+    private int memberStatus;
     private String withdrawalDate;
 
     
 
     public MemberDto(String memberId, String name, String userPassword, String easyPassword,
             String email, String phone, String personalIdNumber, String gender, String birth,
-            String zipcode, String address, String detailAddress, String regDate, int accountStatus,
+            String zipcode, String address, String detailAddress, String regDate, int memberStatus,
             String withdrawalDate) {
         super();
         this.memberId = memberId;
@@ -38,7 +38,7 @@ public class MemberDto {
         this.address = address;
         this.detailAddress = detailAddress;
         this.regDate = regDate;
-        this.accountStatus = accountStatus;
+        this.memberStatus = memberStatus;
         this.withdrawalDate = withdrawalDate;
     }
     
@@ -59,7 +59,7 @@ public class MemberDto {
         this.address = address;
         this.detailAddress = detailAddress;
         this.regDate = null;
-        this.accountStatus = 1;
+        this.memberStatus = 1;
         this.withdrawalDate = null;
     }
     
@@ -170,12 +170,12 @@ public class MemberDto {
         this.regDate = regDate;
     }
 
-    public int getAccountStatus() {
-        return accountStatus;
+    public int getMemberStatus() {
+        return memberStatus;
     }
 
-    public void setAccountStatus(int accountStatus) {
-        this.accountStatus = accountStatus;
+    public void setMemberStatus(int memberStatus) {
+        this.memberStatus = memberStatus;
     }
 
     public String getWithdrawalDate() {
