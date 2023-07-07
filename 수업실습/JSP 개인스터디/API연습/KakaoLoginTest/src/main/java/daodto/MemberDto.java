@@ -1,6 +1,5 @@
 package daodto;
 
-import java.util.Date;
 
 public class MemberDto {
     private String memberId;

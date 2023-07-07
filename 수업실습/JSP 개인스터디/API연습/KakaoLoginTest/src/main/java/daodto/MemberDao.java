@@ -78,21 +78,22 @@ public class MemberDao {
     }
 
 
-    // 카카오 회원가입 아직 보류
-    public void insertKaKaoMember(long id, String nickName) {
+    // 카카오 최초 로그인 메소드
+    public void insertKaKaoMember(String id, String nickName) {
         System.out.println("insert메소드 시작");
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
-        String query = "INSERT INTO KAKAOTEST (ID, NICKNAME)\r\n" + "VALUES (?, ?)";
+        int accountStatus = 1; //최초 로그인 시 상태값 정상
+        String query = "INSERT INTO member_hana (member_id, name, account_status)\r\n" + "VALUES (?, ?, ?)";
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
             conn = ds.getConnection();
             pstmt = conn.prepareStatement(query);
-            pstmt.setLong(1, id);
+            pstmt.setString(1, id);
             pstmt.setString(2, nickName);
+            pstmt.setInt(3, accountStatus);
             int iResult = pstmt.executeUpdate();
 
             if (iResult >= 1) {
@@ -116,6 +117,64 @@ public class MemberDao {
             }
         }
 
+    }
+    
+    //카카오 로그인한 사람의 Dto 가져오기
+    public MemberDto memberLoginCheck(String kakaoId) {
+        System.out.println("login체크");
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        MemberDto dto = null;
+        try {
+            conn = ds.getConnection();
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from member_hana where member_id = '" + kakaoId + "'");
+
+            while (rs.next()) {
+                String memberId = rs.getString("member_id");
+                if (kakaoId.equals(memberId)) {
+                    String name = rs.getString("name");
+                    String userPassword = rs.getString("user_password");
+                    String easyPassword = rs.getString("easy_password");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("phone");
+                    String personalIdNumber = rs.getString("personal_id_number");
+                    String gender = rs.getString("gender");
+                    String birth = rs.getString("birth");
+                    String zipcode = rs.getString("zipcode");
+                    String address = rs.getString("address");
+                    String detailAddress = rs.getString("detail_address");
+                    String regDate = rs.getString("reg_date");
+                    int accountStatus = rs.getInt("account_status");
+                    String withdrawalDate = rs.getString("withdrawal_date");
+
+
+                    dto = new MemberDto(memberId, name, userPassword, easyPassword, email, phone,
+                            personalIdNumber, gender, birth, zipcode, address, detailAddress,
+                            regDate, accountStatus, withdrawalDate);
+
+                } else {
+                    System.out.println("login fail");
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (stmt != null)
+                    stmt.close();
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return dto;
     }
 
     public String mailSend(String email) {
@@ -280,7 +339,7 @@ public class MemberDao {
         }
     }
 
-
+    //일반 로그인 
     public MemberDto memberLoginCheck(String ckId, String ckPw) {
         boolean ck = false;
         System.out.println("login체크");
