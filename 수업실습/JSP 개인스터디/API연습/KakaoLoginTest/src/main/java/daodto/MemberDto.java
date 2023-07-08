@@ -20,6 +20,7 @@ public class MemberDto {
 
     
 
+
     public MemberDto(String memberId, String name, String userPassword, String easyPassword,
             String email, String phone, String personalIdNumber, String gender, String birth,
             String zipcode, String address, String detailAddress, String regDate, int memberStatus,
@@ -188,4 +189,13 @@ public class MemberDto {
 
 
 
+    @Override
+    public String toString() {
+        return "MemberDto [memberId=" + memberId + ", name=" + name + ", userPassword="
+                + userPassword + ", easyPassword=" + easyPassword + ", email=" + email + ", phone="
+                + phone + ", personalIdNumber=" + personalIdNumber + ", gender=" + gender
+                + ", birth=" + birth + ", zipcode=" + zipcode + ", address=" + address
+                + ", detailAddress=" + detailAddress + ", regDate=" + regDate + ", memberStatus="
+                + memberStatus + ", withdrawalDate=" + withdrawalDate + "]";
+    }
 }

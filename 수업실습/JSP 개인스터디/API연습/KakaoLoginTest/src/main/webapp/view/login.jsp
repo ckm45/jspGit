@@ -68,5 +68,8 @@
 	<a href="javascript:kakaoLogin()"><img
 		src="<c:url value="/img/ko/kakao_login_medium_narrow.png"/>"
 		style="width: 200px"></a>
+		
+	<br/>
+	<a href="main.jsp">메인으로</a>
 </body>
 </html>

@@ -14,6 +14,12 @@
 		location.href = "login.jsp";
 	}
 </script>
+<Script>
+    function showMessageAndRedirect2() {
+        alert("로그인 성공");
+        //location.href = "login.jsp";
+    }
+</script>
 
 <script type="text/javascript"
     src="https://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -37,18 +43,22 @@ Kakao.init(""); // API 키값
               Kakao.Auth.setAccessToken(undefined)
             }
         }
+        
 
 </script>
 </head>
 <body>
+    
     <c:if test="${loginResult == true}">
        <%  
      // 세션에서 dto 객체를 가져옴
      MemberDto dto = (MemberDto) session.getAttribute("dto");
      // dto 객체가 null이라면 로그인이 실패한 것으로 판단하고 알림 메시지를 보여줌
      if(dto == null){
-       %><script>showMessageAndRedirect();</script><%
+         
+       %><script>showMessageAndRedirect2();</script><%
      }else{
+         
        // 로그인이 성공했다면 환영 메시지를 출력함
        out.println(dto.getName() + "님 환영합니다.");
      }
@@ -62,8 +72,16 @@ Kakao.init(""); // API 키값
 		</script>
 	</c:if> 
 	
-
-    <a href="javascript:kakaoLogout()">로그아웃</a>
-
+    <br/>
+    <br/>
+    <a href="memberUpdate.jsp">회원정보 수정</a>
+    <button onclick="javascript:kakaoLogout()">카카오 로그아웃</button>
+    <br/>
+    <button onclick="logout()">일반 로그아웃</button>
+    <script>function logout() {
+        <% session.invalidate(); %>
+        location.href = "main.jsp";
+    }    
+    </script>    
 </body>
 </html>

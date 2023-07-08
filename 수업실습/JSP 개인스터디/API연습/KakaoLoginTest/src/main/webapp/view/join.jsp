@@ -302,6 +302,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
     var verifyCode = ""; // 인증 코드를 저장할 변수
 
     function sendMail() {
+      alert("인증번호가 발송되었습니다.")  	
       var email = document.querySelector("input[name='email']").value; // 이메일 값 가져오기
       console.log(email);
       // 인증 메일 발송 동작 수행
