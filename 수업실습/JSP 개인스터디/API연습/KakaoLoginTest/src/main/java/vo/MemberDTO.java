@@ -1,7 +1,7 @@
-package daodto;
+package vo;
 
 
-public class MemberDto {
+public class MemberDTO {
     private String memberId;
     private String name;
     private String userPassword;
@@ -21,7 +21,7 @@ public class MemberDto {
     
 
 
-    public MemberDto(String memberId, String name, String userPassword, String easyPassword,
+    public MemberDTO(String memberId, String name, String userPassword, String easyPassword,
             String email, String phone, String personalIdNumber, String gender, String birth,
             String zipcode, String address, String detailAddress, String regDate, int memberStatus,
             String withdrawalDate) {
@@ -43,7 +43,7 @@ public class MemberDto {
         this.withdrawalDate = withdrawalDate;
     }
     
-    public MemberDto(String memberId, String name, String userPassword, String easyPassword, String email,
+    public MemberDTO(String memberId, String name, String userPassword, String easyPassword, String email,
             String phone, String personalIdNumber, String zipcode,
             String address, String detailAddress) {
         super();

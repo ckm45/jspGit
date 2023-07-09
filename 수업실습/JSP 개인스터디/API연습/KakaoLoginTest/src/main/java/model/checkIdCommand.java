@@ -23,6 +23,9 @@ public class checkIdCommand implements memberCommand {
         PrintWriter out = response.getWriter();
         out.print(ckResult);  // boolean 값 반환. 필요에 따라 String 으로 변환할 수 있음.
         out.flush();
+        
+        //session 만들기는 서비스
+        //ajax응답 처리는 클라이언트와 서버간의 주고받는거라 controller가 수행
     }
 
 }

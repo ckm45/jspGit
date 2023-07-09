@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <a href="login.jsp">로그인</a><br/>
-    <a href="join.jsp">회원가입</a><br/>
+    <a href="/KakaoLoginTest/view/login.jsp">로그인</a><br/>
+    <a href="/KakaoLoginTest/view/join.jsp">회원가입</a><br/>
 </body>
 </html>

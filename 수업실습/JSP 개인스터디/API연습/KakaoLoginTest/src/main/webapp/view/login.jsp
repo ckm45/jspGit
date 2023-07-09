@@ -19,7 +19,7 @@
 					success : function(response) {
 						var json = JSON.stringify(response);
 						var xhr = new XMLHttpRequest();
-						xhr.open("POST", "kakaoLogin.do");
+						xhr.open("POST", "member/kakaoLogin");
 						xhr.setRequestHeader("Content-Type", "application/json");
 						xhr.onreadystatechange = function() {
 							if (xhr.readyState === 4) {
@@ -57,7 +57,7 @@
 </head>
 <body>
 	<h1>로그인</h1>
-	<form action="login.do" method="post">
+	<form action="member/login" method="post">
 		<label for="id">아이디:</label> <input type="text" name="id" id="id">
 		<br /> <label for="pw">비밀번호:</label> <input type="password" name="pw"
 			id="pw"> <br /> <input type="submit" value="로그인">
@@ -70,6 +70,6 @@
 		style="width: 200px"></a>
 		
 	<br/>
-	<a href="main.jsp">메인으로</a>
+	<a href="/KakaoLoginTest/view/main.jsp">메인으로</a>
 </body>
 </html>

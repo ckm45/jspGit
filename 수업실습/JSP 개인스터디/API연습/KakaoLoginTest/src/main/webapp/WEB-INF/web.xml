@@ -15,8 +15,10 @@
     <servlet-name>FrontController</servlet-name>
     <servlet-class>controller.FrontController</servlet-class>
   </servlet>
-<!--   <servlet-mapping>
-    <servlet-name>FrontController</servlet-name>
-    <url-pattern>/FrontController</url-pattern>
-  </servlet-mapping> -->
+  <servlet>
+    <description></description>
+    <display-name>MemberController</display-name>
+    <servlet-name>MemberController</servlet-name>
+    <servlet-class>controller.MemberController</servlet-class>
+  </servlet>
 </web-app>

@@ -118,7 +118,7 @@
 <body>
     <h1>서비스 사용을 위한 추가 정보</h1>
 
-    <form action="kakaoJoin.do" method="post" onsubmit="return validatePersonalId() && validateSimplePw() && validateAddress()">
+    <form action="member/kakaoJoin" method="post" onsubmit="return validatePersonalId() && validateSimplePw() && validateAddress()">
         <label for="simplePw">간편 비밀번호:</label>
         <input type="password" name="simplePw" id="simplePw" placeholder="간편 비밀번호 6자리를 입력해주세요." required value="${param.simplePw}" maxlength="6">
         
@@ -144,6 +144,6 @@
         <input type="hidden" name="kakaoId" value="<%= session.getAttribute("kakaoId") %>"> <!-- 카카오 아이디 가져오기 -->
         <input type="submit" value="회원가입요청">
     </form>
-    <a href="main.jsp">메인으로 가기</a>
+    <a href="/KakaoLoginTest/view/main.jsp">메인으로 가기</a>
 </body>
 </html>

@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="org.json.JSONObject" %>
-<%@ page import="daodto.MemberDto" %> 
+<%@ page import="vo.MemberDTO" %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +52,7 @@ Kakao.init(""); // API 키값
     <c:if test="${loginResult == true}">
        <%  
      // 세션에서 dto 객체를 가져옴
-     MemberDto dto = (MemberDto) session.getAttribute("dto");
+     MemberDTO dto = (MemberDTO) session.getAttribute("dto");
      // dto 객체가 null이라면 로그인이 실패한 것으로 판단하고 알림 메시지를 보여줌
      if(dto == null){
          
@@ -80,7 +80,7 @@ Kakao.init(""); // API 키값
     <button onclick="logout()">일반 로그아웃</button>
     <script>function logout() {
         <% session.invalidate(); %>
-        location.href = "main.jsp";
+        location.href = "/KakaoLoginTest/view/main.jsp";
     }    
     </script>    
 </body>
