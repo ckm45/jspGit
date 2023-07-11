@@ -18,7 +18,6 @@ import javax.mail.internet.MimeMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import daodto.MemberDto;
 import vo.MemberDTO;
 
 public class MemberRepositoryImpl implements MemberRepository {
@@ -137,7 +136,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public MemberDTO memberLoginCheck(String kakaoId) {
-        System.out.println("login체크");
+        System.out.println("카카오 login체크");
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -251,8 +250,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     public String mailSend(String email) {
         String verificationCode = "";
         String host = "smtp.naver.com"; // 네이버 SMTP 서버
-        String user = "ckm45@naver.com"; // 네이버 계정
-        String password = "ckm4545"; // 네이버 계정 비밀번호
+        String user = ".com"; // 네이버 계정
+        String password = ""; // 네이버 계정 비밀번호
 
         // SMTP 서버 정보를 설정한다.
         Properties props = new Properties();
@@ -414,7 +413,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public MemberDTO memberLoginCheck(String ckId, String ckPw) {
         boolean ck = false;
-        System.out.println("login체크");
+        System.out.println("일반 회원 login체크");
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;

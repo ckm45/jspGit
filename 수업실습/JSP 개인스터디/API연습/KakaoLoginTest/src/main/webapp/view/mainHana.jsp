@@ -462,7 +462,7 @@ body {
 <script type="text/javascript"
     src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script type="text/javascript">
-Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
+Kakao.init(""); // API 키값
     
     
     function kakaoLogout() {
@@ -494,21 +494,23 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
         <!-- 메뉴바 내용 -->
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
-                <c:url var="logoUrl" value="/hanabank.jpg" />
-                <a class="navbar-brand" href="mainHana.jsp"> <img
-                    src="${logoUrl}" alt="로고" class="logo-img">
-                </a>
+                <c:url var="logoUrl" value="/img/hanabank.jpg" />
+                    <a class="navbar-brand" href="mainHana.jsp?session_id=<%= session.getId() %>">
+                    <img src="${logoUrl}" alt="로고" class="logo-img">
+                    </a>
+
 
 
                 <div class="collapse navbar-collapse justify-content-center"
                     id="navbarSupportedContent">
+                     
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link active"
                             aria-current="page" href="innerAccount.jsp">계좌조회</a></li>
                         <li class="nav-item"><a class="nav-link"
                             href="accountTransferInner.jsp">계좌이체</a></li>
                         <li class="nav-item">
-                            <a class="nav-link" href="makeAccountSelect.next" >계좌개설</a>
+                            <a class="nav-link" href="makeAccountSelect.jsp" >계좌개설</a>
                         </li>
                             <!-- 이동하는 컨트롤러 , 경로를 원래 쓰던 경로~~~.jsp 였는데 이것을 앞에는 두고 .next 확장자 만들고, 짤라서 .next 이거를 .jsp로 바꿔서 replace 바로 디스패처하는 코드 -->
                             <!-- .next를 .jsp로 replace  -->
@@ -539,7 +541,7 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
                 <c:if test="${loginResult == true}">
        <%  
      // 세션에서 dto 객체를 가져옴
-     MemberDTO dto = (MemberDTO) session.getAttribute("dto");
+     MemberDTO dto = (MemberDTO) application.getAttribute("dto");
      // dto 객체가 null이라면 로그인이 실패한 것으로 판단하고 알림 메시지를 보여줌
      if(dto == null){
          
@@ -548,7 +550,8 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
          
        // 로그인이 성공했다면 환영 메시지를 출력함
        out.println(dto.getName() + " 님만을 위한 하나은행 오픈뱅킹 서비스");
-       out.println(session.getId());  
+        %><%
+
      }
    %>
     </c:if>
@@ -580,7 +583,7 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
         <div class="section-middle-wrap">
             <div class="link-container">
                 <div class="link-item1">
-                    <c:url var="logoUrl_bankbook" value="/bankbook.svg" />
+                    <c:url var="logoUrl_bankbook" value="/img/bankbook.svg" />
                     <a class="logoUrl_bankbook" href="#"> <img
                         src="${logoUrl_bankbook}" alt="아이콘" class="logoUrl_bankbook">
                     </a>
@@ -588,7 +591,7 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
 
                 </div>
                 <div class="link-item2">
-                    <c:url var="logoUrl_send" value="/send.svg" />
+                    <c:url var="logoUrl_send" value="/img/send.svg" />
                     <a class="logoUrl_send" href="#"> <img src="${logoUrl_send}"
                         alt="아이콘" class="logoUrl_send">
                     </a>
@@ -596,7 +599,7 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
 
                 </div>
                 <div class="link-item3">
-                    <c:url var="logoUrl_glasses" value="/glasses.svg" />
+                    <c:url var="logoUrl_glasses" value="/img/glasses.svg" />
                     <a class="logoUrl_glasses" href="#"> <img
                         src="${logoUrl_glasses}" alt="아이콘" class="logoUrl_glasses">
                     </a>
@@ -637,23 +640,23 @@ Kakao.init("24b135b96ea4820e030dd2802041d7bb"); // API 키값
         <div class="DivSectionAppconWrapBankLogo">
             <div class="DivSectionAppconInnerBankLogo">
                 <div class="ListBankLogo">
-                    <c:url var="logoUrl_hana" value="/hana.jpg" />
+                    <c:url var="logoUrl_hana" value="/img/hana.jpg" />
                     <a class="logoUrl_hana" href="#"> <img src="${logoUrl_hana}"
                         alt="로고" class="logoUrl_hana">
                     </a>
-                    <c:url var="logoUrl_woori" value="/woori.jpg" />
+                    <c:url var="logoUrl_woori" value="/img/woori.jpg" />
                     <a class="logoUrl_woori" href="#"> <img src="${logoUrl_woori}"
                         alt="로고" class="logoUrl_woori">
                     </a>
-                    <c:url var="logoUrl_KB" value="/KB.jpg" />
+                    <c:url var="logoUrl_KB" value="/img/KB.jpg" />
                     <a class="logoUrl_KB" href="#"> <img src="${logoUrl_KB}"
                         alt="로고" class="logoUrl_KB">
                     </a>
-                    <c:url var="logoUrl_IBK" value="/IBK.jpg" />
+                    <c:url var="logoUrl_IBK" value="/img/IBK.jpg" />
                     <a class="logoUrl_IBK" href="#"> <img src="${logoUrl_IBK}"
                         alt="로고" class="logoUrl_IBK">
                     </a>
-                    <c:url var="logoUrl_NH" value="/NH.jpg" />
+                    <c:url var="logoUrl_NH" value="/img/NH.jpg" />
                     <a class="logoUrl_NH" href="#"> <img src="${logoUrl_NH}"
                         alt="로고" class="logoUrl_NH">
                     </a>

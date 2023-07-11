@@ -38,7 +38,7 @@
 										//var encodedData = encodeURIComponent(responseDataStr);
 										//var url = "loginOk.jsp?responseData=" + encodedData;
 										//location.href = "loginOk.jsp;"
-										location.href ="mainHana.jsp;"
+										location.href ="mainHana.jsp"
 									}
 								} else {
 									console.error(xhr.responseText);

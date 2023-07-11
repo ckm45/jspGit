@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -171,7 +172,8 @@ public class MemberController extends HttpServlet {
                 // 세션에 dto 저장
                 System.out.println(dto);
                 HttpSession session = request.getSession();
-                session.setAttribute("dto", dto);
+                ServletContext application = session.getServletContext();
+                application.setAttribute("dto", dto);
                 session.setAttribute("loginResult", true);
                 response.setContentType("application/json"); // 콘텐트 타입을 application/json으로 설정
                 response.setCharacterEncoding("UTF-8");
@@ -217,19 +219,17 @@ public class MemberController extends HttpServlet {
                 session.setAttribute("loginResult", false);
 
             } else {
-
-                session.setAttribute("dto", dto);
-                session.setAttribute("loginResult", true);
+                ServletContext application = session.getServletContext();
+                application.setAttribute("dto", dto);
+                application.setAttribute("loginResult", true);
                 System.out.println("로그인 성공 command");
-                //viewPage = "/view/loginOk.jsp";
-                viewPage = "/view/mainHana.jsp";
+                // viewPage = "/view/loginOk.jsp";
+                viewPage = "/KakaoLoginTest/view/mainHana.jsp";
+                response.sendRedirect(viewPage);
                 // 포워딩
-                RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
-                reqDpt.forward(request, response);
+                //RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);
+                //reqDpt.forward(request, response);
             }
-
         }
-
-
     }
 }

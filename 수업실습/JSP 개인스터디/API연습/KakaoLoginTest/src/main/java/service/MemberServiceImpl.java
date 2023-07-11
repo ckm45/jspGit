@@ -100,9 +100,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberDTO memberLoginCheck(String ckId, String ckPw) {
-        MemberRepository repository = MemberRepositoryImpl.getInstance();
         
+        MemberRepository repository = MemberRepositoryImpl.getInstance();        
         return repository.memberLoginCheck(ckId, ckPw);
+        
     }
 
 }

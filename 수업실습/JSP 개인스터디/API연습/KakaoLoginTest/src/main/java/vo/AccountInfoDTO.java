@@ -1,5 +1,7 @@
 package vo;
 
+import java.util.Date;
+
 public class AccountInfoDTO {
     private String accountNumber;
     private String memberId;
@@ -11,11 +13,11 @@ public class AccountInfoDTO {
     private int productId;
     private int accountStatus;
     private int openBankingStatus;
-    private String regDate;
+    private Date regDate;
     
     public AccountInfoDTO(String accountNumber, String memberId, String bankCode, String branchCode,
             String accountPassword, int balance, String nickname, int productId, int accountStatus,
-            int openBankingStatus, String regDate) {
+            int openBankingStatus, Date regDate) {
         super();
         this.accountNumber = accountNumber;
         this.memberId = memberId;
@@ -110,11 +112,11 @@ public class AccountInfoDTO {
         this.openBankingStatus = openBankingStatus;
     }
 
-    public String getRegDate() {
+    public Date getRegDate() {
         return regDate;
     }
 
-    public void setRegDate(String regDate) {
+    public void setRegDate(Date regDate) {
         this.regDate = regDate;
     }
     

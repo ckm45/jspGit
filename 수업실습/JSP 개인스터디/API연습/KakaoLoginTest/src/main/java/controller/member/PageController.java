@@ -30,7 +30,6 @@ public class PageController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		actionDo(request, response);
 	}
 
@@ -39,7 +38,6 @@ public class PageController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		actionDo(request,response);
-		doGet(request, response);
 	}
 	private void actionDo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    HttpSession session = request.getSession();
@@ -56,7 +54,7 @@ public class PageController extends HttpServlet {
         System.out.println("command : " + command);
         
         if(command.equals("/view/makeAccountSelect.next")) {
-           
+           System.out.println(session.getAttribute("dto"));
            MemberDTO dto =(MemberDTO) session.getAttribute("dto");
            System.out.println(dto.toString());
            session.setAttribute("dto", dto);

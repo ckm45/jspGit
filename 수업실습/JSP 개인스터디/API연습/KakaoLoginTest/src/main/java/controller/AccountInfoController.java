@@ -1,11 +1,13 @@
 package controller;
 
+import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import service.AccountService;
+import service.AccountServiceImpl;
 
 /**
  * Servlet implementation class AccountInfoController
@@ -46,7 +48,17 @@ public class AccountInfoController extends HttpServlet {
         String command = uri.substring(conPath.length() + 18);
         System.out.println("command: " + command);
         
-        if(command.equals("insert")) {
+        if(command.equals("insertAccount")) {
+            String memberId = request.getParameter("memberId");
+            String productName = request.getParameter("product-name");
+            String bankCode = request.getParameter("bank");
+            String nickname = request.getParameter("account-nickname");
+            String accountPassword = request.getParameter("account-password");
+            
+            AccountService service = new AccountServiceImpl();
+            service.insertAccount(memberId, productName, bankCode, nickname, accountPassword);
+            viewPage = "/KakaoLoginTest/view/mainHana.jsp";
+            response.sendRedirect(viewPage);
             
         }
 	}
