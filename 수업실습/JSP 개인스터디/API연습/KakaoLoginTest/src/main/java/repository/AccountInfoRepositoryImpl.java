@@ -1,8 +1,12 @@
 package repository;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -59,7 +63,7 @@ public class AccountInfoRepositoryImpl implements AccountInfoRepository{
             pstmt.setString(7, dto.getNickname());
             pstmt.setInt(8, dto.getProductId());
             pstmt.setInt(9, dto.getAccountStatus());
-            pstmt.setInt(10, dto.getOpenBankingStatus());
+            pstmt.setInt(10, 0);
             int iResult = pstmt.executeUpdate();
 
             if (iResult >= 1) {
@@ -84,6 +88,137 @@ public class AccountInfoRepositoryImpl implements AccountInfoRepository{
         }
 
         
+    }
+
+    @Override
+    public List<AccountInfoDTO> findAccountsByMemberId(String memberId) {
+        List<AccountInfoDTO> accountInfos = new ArrayList<>();
+        String query = "SELECT * FROM account_info_woori WHERE member_id = ?";
+        Connection conn = null;
+        try {
+            conn =ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, memberId);
+            ResultSet rs = ps.executeQuery();
+
+             while (rs.next()) {
+                    AccountInfoDTO accountInfo = new AccountInfoDTO(rs.getString("account_number"),
+                            rs.getString("member_id"), rs.getString("bank_code"),
+                            rs.getString("branch_code"), rs.getString("account_password"),
+                            rs.getInt("balance"), rs.getString("nickname"),
+                            rs.getInt("account_type"), rs.getInt("account_status"),
+                            rs.getDate("reg_date"));
+                    accountInfos.add(accountInfo);
+             }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accountInfos;
+    }
+
+    @Override
+    public List<AccountInfoDTO> findMyAccountsByMemberId(String memberId) {
+        List<AccountInfoDTO> accountInfos = new ArrayList<>();
+        String query = "SELECT * FROM account_info_woori WHERE member_id = ? and open_banking_registered_yn = ?";
+        Connection conn = null;
+        try {
+            conn =ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, memberId);
+            ps.setInt(2, 1);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    AccountInfoDTO accountInfo = new AccountInfoDTO(rs.getString("account_number"),
+                            rs.getString("member_id"), rs.getString("bank_code"),
+                            rs.getString("branch_code"), rs.getString("account_password"),
+                            rs.getInt("balance"), rs.getString("nickname"),
+                            rs.getInt("account_type"), rs.getInt("account_status"),
+                            rs.getDate("reg_date"));
+                    accountInfos.add(accountInfo);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accountInfos;
+    }
+    
+    @Override
+    public List<String> findAccountNumbersByMemberId(String memberId) {
+        List<String> accountNumbers = new ArrayList<>();
+        String query = "SELECT account_number FROM account_info_woori WHERE member_id = ? and open_banking_registered_yn = ?";
+        Connection conn = null;
+        try {
+            conn =ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, memberId);
+            ps.setInt(2, 1);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    accountNumbers.add(rs.getString("account_number"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return accountNumbers;
+    }
+    
+
+    public String getMemberName(String accountNumber) {
+        String memberName = null;
+        String memberIdQuery = "SELECT member_id FROM account_info_woori WHERE account_Number = ?";
+        String nameQuery = "SELECT name FROM member_woori WHERE member_id = ?";
+        Connection conn = null;
+        try  {
+            conn =ds.getConnection();
+            // account_info_woori 테이블에서 accountNumber와 password를 이용해 member_id 가져오기
+            try (PreparedStatement memberIdPs = conn.prepareStatement(memberIdQuery)) {
+                memberIdPs.setString(1, accountNumber);
+                
+                try (ResultSet rs = memberIdPs.executeQuery()) {
+                    if (rs.next()) {
+                        String memberId = rs.getString("member_id");
+
+                        // member_woori 테이블에서 member_id를 이용해 name 가져오기
+                        try (PreparedStatement namePs = conn.prepareStatement(nameQuery)) {
+                            namePs.setString(1, memberId);
+                            
+                            try (ResultSet rs2 = namePs.executeQuery()) {
+                                if (rs2.next()) {
+                                    memberName = rs2.getString("name");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return memberName;
+    }
+
+    @Override
+    public void updateRegisteredYn(String accountNumber, String bankCode) {
+       String query = "UPDATE account_info_woori SET open_banking_registered_yn = 1 WHERE account_number = ? AND bank_code = ?";
+       Connection conn = null;
+       try {
+          conn =ds.getConnection();
+          PreparedStatement ps = conn.prepareStatement(query);
+          ps.setString(1, accountNumber);
+          ps.setString(2, bankCode);
+
+          ps.executeUpdate();
+       } catch (SQLException e) {
+          e.printStackTrace();
+       }
     }
     
 

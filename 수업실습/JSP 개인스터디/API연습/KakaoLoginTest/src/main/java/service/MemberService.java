@@ -28,4 +28,7 @@ public interface MemberService {
     //일반 로그인 
     public MemberDTO memberLoginCheck(String ckId, String ckPw);
     
+    
+    //(은행API)주민등록번호로 회원검색
+    public String findMemberIdByPersonalIdNumber(String personalIdNumber);
 }

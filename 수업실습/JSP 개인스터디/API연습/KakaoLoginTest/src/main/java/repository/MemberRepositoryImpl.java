@@ -1,8 +1,10 @@
 package repository;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.Random;
@@ -21,9 +23,9 @@ import javax.sql.DataSource;
 import vo.MemberDTO;
 
 public class MemberRepositoryImpl implements MemberRepository {
-    
+
     private static MemberRepositoryImpl instance = null;
-    
+
     private DataSource ds;
 
     public MemberRepositoryImpl() {
@@ -33,9 +35,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
-    
-    
+    }
+
+
     public static MemberRepositoryImpl getInstance() {
         if (instance == null) {
             synchronized (MemberRepositoryImpl.class) {
@@ -46,8 +48,8 @@ public class MemberRepositoryImpl implements MemberRepository {
         }
         return instance;
     }
-    
-    
+
+
     public boolean checkId(String uId) {
         boolean ck = false;
 
@@ -97,8 +99,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        int memberStatus = 1; //최초 로그인 시 상태값 정상
-        String query = "INSERT INTO member_hana (member_id, name, email, member_status)\r\n" + "VALUES (?, ?, ?, ?)";
+        int memberStatus = 1; // 최초 로그인 시 상태값 정상
+        String query = "INSERT INTO member_hana (member_id, name, email, member_status)\r\n"
+                + "VALUES (?, ?, ?, ?)";
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
@@ -204,7 +207,8 @@ public class MemberRepositoryImpl implements MemberRepository {
             conn = ds.getConnection();
 
             // SQL 쿼리 작성
-            String sql = "UPDATE member_hana SET easy_password = ? , phone = ?,  personal_id_number = ?, gender = ?, birth = ?, zipcode = ?, address = ?, detail_address = ?  WHERE member_id = ?";
+            String sql =
+                    "UPDATE member_hana SET easy_password = ? , phone = ?,  personal_id_number = ?, gender = ?, birth = ?, zipcode = ?, address = ?, detail_address = ?  WHERE member_id = ?";
 
             // PreparedStatement 객체 생성
             pstmt = conn.prepareStatement(sql);
@@ -470,6 +474,35 @@ public class MemberRepositoryImpl implements MemberRepository {
         }
         return dto;
 
+    }
+
+    // (은행API)주민등록번호로 회원 검색
+    @Override
+    public String findMemberIdByPersonalIdNumber(String personalIdNumber) {
+        String result = "";
+        String query = "SELECT member_id FROM member_hana WHERE personal_id_number = ?";
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, personalIdNumber);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getString("member_id");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error while retrieving member_id");
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
     }
 
 }

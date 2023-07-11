@@ -12,12 +12,10 @@ public class AccountInfoDTO {
     private String nickname;
     private int productId;
     private int accountStatus;
-    private int openBankingStatus;
     private Date regDate;
     
     public AccountInfoDTO(String accountNumber, String memberId, String bankCode, String branchCode,
-            String accountPassword, int balance, String nickname, int productId, int accountStatus,
-            int openBankingStatus, Date regDate) {
+            String accountPassword, int balance, String nickname, int productId, int accountStatus, Date regDate) {
         super();
         this.accountNumber = accountNumber;
         this.memberId = memberId;
@@ -28,7 +26,6 @@ public class AccountInfoDTO {
         this.nickname = nickname;
         this.productId = productId;
         this.accountStatus = accountStatus;
-        this.openBankingStatus = openBankingStatus;
         this.regDate = regDate;
     }
 
@@ -102,14 +99,6 @@ public class AccountInfoDTO {
 
     public void setAccountStatus(int accountStatus) {
         this.accountStatus = accountStatus;
-    }
-
-    public int getOpenBankingStatus() {
-        return openBankingStatus;
-    }
-
-    public void setOpenBankingStatus(int openBankingStatus) {
-        this.openBankingStatus = openBankingStatus;
     }
 
     public Date getRegDate() {
