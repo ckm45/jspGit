@@ -252,7 +252,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
     
     // AJAX 요청 수행
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "member/checkId", true);
+    xhr.open("POST", "checkId.member", true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     console.log("readyState:", xhr.readyState, "status:", xhr.status);
     xhr.onreadystatechange = function() {
@@ -307,7 +307,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
       console.log(email);
       // 인증 메일 발송 동작 수행
       var xhr = new XMLHttpRequest();
-      xhr.open("POST", "member/mail", true);
+      xhr.open("POST", "mail.member", true);
       xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
@@ -361,7 +361,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
             alert(message);
         }
     </script>
-	<form action="member/join" method="post"
+	<form action="join.member" method="post"
         onsubmit="return validateId() && validatePersonalId() && validateSimplePw() && validateAddress() && validateEmail()">
 		<label for="name">이름:</label>
 	    <input type="text" name="name" id="name" placeholder="이름을 입력해주세요." required value="${param.name}"> 
@@ -408,4 +408,7 @@ input[type="button"]:hover, input[type="submit"]:hover {
 	</form>
     <a href="/KakaoLoginTest/view/main.jsp">메인으로</a>
 </body>
+    <!-- 부트스트랩 JavaScript 연결 -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
 </html>

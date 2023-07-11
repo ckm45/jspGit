@@ -251,8 +251,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     public String mailSend(String email) {
         String verificationCode = "";
         String host = "smtp.naver.com"; // 네이버 SMTP 서버
-        String user = ".com"; // 네이버 계정
-        String password = ""; // 네이버 계정 비밀번호
+        String user = "ckm45@naver.com"; // 네이버 계정
+        String password = "ckm4545"; // 네이버 계정 비밀번호
 
         // SMTP 서버 정보를 설정한다.
         Properties props = new Properties();

@@ -19,7 +19,7 @@
 					success : function(response) {
 						var json = JSON.stringify(response);
 						var xhr = new XMLHttpRequest();
-						xhr.open("POST", "member/kakaoLogin");
+						xhr.open("POST", "kakaoLogin.member");
 						xhr.setRequestHeader("Content-Type", "application/json");
 						xhr.onreadystatechange = function() {
 							if (xhr.readyState === 4) {
@@ -37,7 +37,8 @@
 										//var responseDataStr = JSON.stringify(responseData);
 										//var encodedData = encodeURIComponent(responseDataStr);
 										//var url = "loginOk.jsp?responseData=" + encodedData;
-										location.href = "loginOk.jsp;"
+										//location.href = "loginOk.jsp;"
+										location.href ="mainHana.jsp;"
 									}
 								} else {
 									console.error(xhr.responseText);
@@ -57,7 +58,7 @@
 </head>
 <body>
 	<h1>로그인</h1>
-	<form action="member/login" method="post">
+	<form action="login.member" method="post">
 		<label for="id">아이디:</label> <input type="text" name="id" id="id">
 		<br /> <label for="pw">비밀번호:</label> <input type="password" name="pw"
 			id="pw"> <br /> <input type="submit" value="로그인">

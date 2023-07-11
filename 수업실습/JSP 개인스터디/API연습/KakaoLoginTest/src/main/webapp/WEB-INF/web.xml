@@ -19,6 +19,18 @@
     <description></description>
     <display-name>MemberController</display-name>
     <servlet-name>MemberController</servlet-name>
-    <servlet-class>controller.MemberController</servlet-class>
+    <servlet-class>controller.member.MemberController</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>AccountInfoController</display-name>
+    <servlet-name>AccountInfoController</servlet-name>
+    <servlet-class>controller.AccountInfoController</servlet-class>
+  </servlet>
+  <servlet>
+    <description></description>
+    <display-name>PageController</display-name>
+    <servlet-name>PageController</servlet-name>
+    <servlet-class>controller.member.PageController</servlet-class>
   </servlet>
 </web-app>
