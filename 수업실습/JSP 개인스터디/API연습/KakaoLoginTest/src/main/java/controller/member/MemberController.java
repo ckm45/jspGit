@@ -216,15 +216,18 @@ public class MemberController extends HttpServlet {
             MemberDTO dto = service.memberLoginCheck(id, pw);
 
             if (dto == null) {
-                session.setAttribute("loginResult", false);
+                //session.setAttribute("loginResult", false);
+                viewPage = "/KakaoLoginTest/view/mainHana.jsp";
+                response.sendRedirect(viewPage);
 
             } else {
                 ServletContext application = session.getServletContext();
                 application.setAttribute("dto", dto);
-                application.setAttribute("loginResult", true);
+                //session.setAttribute("loginResult", true);
                 System.out.println("로그인 성공 command");
                 // viewPage = "/view/loginOk.jsp";
                 viewPage = "/KakaoLoginTest/view/mainHana.jsp";
+                System.out.println(application.getAttribute("dto"));
                 response.sendRedirect(viewPage);
                 // 포워딩
                 //RequestDispatcher reqDpt = request.getRequestDispatcher(viewPage);

@@ -26,17 +26,30 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     private static MemberRepositoryImpl instance = null;
 
-    private DataSource ds;
+//    private DataSource ds;
+//
+//    public MemberRepositoryImpl() {
+//        try {
+//            Context ctx = new InitialContext();
+//            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//    private final String DB_URL =
+//            "jdbc:oracle:thin:@dinkdb_medium?TNS_ADMIN=/opt/wallet/Wallet_DinkDB"; // 데이터베이스 url
+    private final String DB_URL =
+            "jdbc:oracle:thin:@dinkdb_medium?TNS_ADMIN=C:/Users/user/Downloads/Wallet_DinkDB"; 
+    private final String USER = "DA2319";
+    private final String PASS = "Data2319";
 
     public MemberRepositoryImpl() {
         try {
-            Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public static MemberRepositoryImpl getInstance() {
         if (instance == null) {
@@ -58,7 +71,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         ResultSet rs = null;
         try {
             System.out.println("id중복체크 시작");
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);;
             stmt = conn.createStatement();
 
             // 쿼리를 수정하여 조건에 맞는 회원을 가져옵니다.
@@ -105,7 +118,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, id);
             pstmt.setString(2, nickName);
@@ -145,7 +158,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         ResultSet rs = null;
         MemberDTO dto = null;
         try {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from member_hana where member_id = '" + kakaoId + "'");
 
@@ -204,7 +217,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         PreparedStatement pstmt = null;
 
         try {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             // SQL 쿼리 작성
             String sql =
@@ -255,7 +268,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         String verificationCode = "";
         String host = "smtp.naver.com"; // 네이버 SMTP 서버
         String user = ".com"; // 네이버 계정
-        String password = ""; // 네이버 계정 비밀번호
+        String password = "?"; // 네이버 계정 비밀번호
 
         // SMTP 서버 정보를 설정한다.
         Properties props = new Properties();
@@ -324,7 +337,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         ResultSet rs = null;
         try {
             System.out.println("if문 시작");
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
 
             // 쿼리를 수정하여 조건에 맞는 회원을 가져옵니다.
@@ -373,7 +386,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
         try {
             // conn = DriverManager.getConnection(url, uid, upw);
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, dto.getMemberId());
             pstmt.setString(2, dto.getName());
@@ -423,7 +436,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         ResultSet rs = null;
         MemberDTO dto = null;
         try {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from member_hana where member_id = '" + ckId + "'");
 
@@ -483,7 +496,7 @@ public class MemberRepositoryImpl implements MemberRepository {
         String query = "SELECT member_id FROM member_hana WHERE personal_id_number = ?";
         Connection conn = null;
         try {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, personalIdNumber);
             ResultSet rs = ps.executeQuery();

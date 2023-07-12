@@ -16,17 +16,20 @@ public class AccountTransferRepositoryImpl implements AccountTransferRepository 
 
     private static AccountTransferRepositoryImpl instance = null;
 
-    private DataSource ds;
-    
+//    private final String DB_URL =
+//           "jdbc:oracle:thin:@dinkdb_medium?TNS_ADMIN=/opt/wallet/Wallet_DinkDB"; // 데이터베이스 url
+    private final String DB_URL =
+            "jdbc:oracle:thin:@dinkdb_medium?TNS_ADMIN=C:/Users/user/Downloads/Wallet_DinkDB"; 
+    private final String USER = "DA2319";
+    private final String PASS = "Data2319";
+
     public AccountTransferRepositoryImpl() {
         try {
-            Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+            Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (Exception e) {
             e.printStackTrace();
         }
-    } 
-    
+    }
     
     public static AccountTransferRepositoryImpl getInstance() {
         if (instance == null) {
@@ -45,10 +48,10 @@ public class AccountTransferRepositoryImpl implements AccountTransferRepository 
         Connection conn = null;
         boolean result = true;
         String query =
-                "UPDATE account_info_woori SET balance = balance - ? WHERE account_number = ?";
+                "UPDATE account_info_hana SET balance = balance - ? WHERE account_number = ?";
 
         try {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, amount);
             pstmt.setString(2, accountNumber1);
@@ -66,10 +69,10 @@ public class AccountTransferRepositoryImpl implements AccountTransferRepository 
         Connection conn = null;
         boolean result = true;
         String query =
-                "UPDATE account_info_woori SET balance = balance + ? WHERE account_number = ?";
+                "UPDATE account_info_hana SET balance = balance + ? WHERE account_number = ?";
 
         try  {
-            conn = ds.getConnection();
+            conn =  DriverManager.getConnection(DB_URL, USER, PASS);
             pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, amount);
             pstmt.setString(2, accountNumber2);
@@ -87,13 +90,13 @@ public class AccountTransferRepositoryImpl implements AccountTransferRepository 
         PreparedStatement pstmt = null;
         Connection conn = null;
         String query =
-                "INSERT INTO AccountTransferInfo_woori (transfer_id, account_Number1, account_Number2, tran_Amt, content, inout_Type) "
+                "INSERT INTO AccountTransferInfo_hana (transfer_id, account_Number1, account_Number2, tran_Amt, content, inout_Type) "
                         + "VALUES (TRANSFER_ID_SEQ.NEXTVAL, ?, ?, ?, ?, ?)";
 
         try  {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             pstmt = conn.prepareStatement(query);
-            // Insert into AccountTransferInfo_woori
+            // Insert into AccountTransferInfo_hana
             pstmt.setString(1, accountNumber1);
             pstmt.setString(2, accountNumber2);
             pstmt.setInt(3, amount);
@@ -114,10 +117,10 @@ public class AccountTransferRepositoryImpl implements AccountTransferRepository 
         PreparedStatement pstmt = null;
         Connection conn = null;        
         List<AccountTransferInfoDTO> accountTransferInfos = new ArrayList<>();
-        String query = "SELECT * FROM AccountTransferInfo_woori WHERE account_Number1 = ?";
+        String query = "SELECT * FROM AccountTransferInfo_hana WHERE account_Number1 = ?";
 
         try {
-            conn = ds.getConnection();
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
             pstmt = conn.prepareStatement(query);
             pstmt.setString(1, accountNumber);
 
